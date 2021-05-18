@@ -1,6 +1,4 @@
-import Head from 'next/head';
 import { useRouter } from 'next/router';
-import styles from '../../styles/Home.module.css';
 import { useEffect, useState } from "react";
 
 export default function Assignment() {
@@ -24,22 +22,36 @@ export default function Assignment() {
 
     // Display the client portal page
     return (
-        <div className={styles.container}>
-            <Head>
-                <title>Client Portal</title>
-                <link rel="icon" href="/favicon.ico"/>
-            </Head>
-
-            <main className={styles.main}>
-                <h1 className={styles.title}>Welcome to Your Client Portal</h1>
-                <div>
-                    {assignment ? (
-                        <div className={styles.card} key={assignment.id}>
-                            <h3>{assignment.title}</h3>
-                        </div>
-                    ) : (<p>You currently have no projects attached to this account.</p>)}
-                </div>
-            </main>
-        </div>
+        <main>
+            <h1>DRAFT.DEV Writer Portal</h1>
+            <div>
+                {assignment ? (
+                    <table className="pure-table">
+                        <tbody>
+                        <tr>
+                            <th>Title</th>
+                            <td>{assignment.title}</td>
+                        </tr>
+                        <tr>
+                            <th>Pitch</th>
+                            <td>{assignment.pitch}</td>
+                        </tr>
+                        <tr>
+                            <th>Brief URL</th>
+                            <td><a href={assignment.brief_url} target="_blank">{assignment.brief_url}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Due Date</th>
+                            <td>{assignment.writer_due_date}</td>
+                        </tr>
+                        <tr>
+                            <th>Pay Rate</th>
+                            <td>${assignment.writer_payout}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                ) : (<p>No assignment found.</p>)}
+            </div>
+        </main>
     )
 }
