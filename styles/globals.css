@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: Roboto, sans-serif;
   color: #5e5e5e;
+  background-color: #f5f4f0;
 }
 
 a {
@@ -15,7 +16,44 @@ a {
   box-sizing: border-box;
 }
 
+header {
+  font-family: Assistant, sans-serif;
+  padding: 1rem;
+  background-color: #3b3e4f;
+  color: #ffffff;
+  clear-after: both;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+header a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+header .site-name {
+  line-height: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  text-align: right;
+}
+
 main {
+  background-color: #ffffff;
+  padding: 1rem 2rem;
   margin-left: auto;
   margin-right: auto;
   max-width: 768px;
@@ -25,3 +63,36 @@ h1, h2, h3 {
   font-family: Assistant, sans-serif;
   font-weight: bold;
 }
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+  background: #778780;
+}
+
+.button-error {
+  background: rgb(129, 71, 71);
+  /* this is a maroon */
+}
+
+.button-warning {
+  background: rgb(160, 110, 65);
+  /* this is an orange */
+}
+
+.button-secondary {
+  background: #b3aa8d;
+  /* this is a light blue */
+}
+
+.assignment-actions {
+  margin-top: 1rem;
+}
+
