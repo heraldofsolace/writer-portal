@@ -59,7 +59,9 @@ main {
   max-width: 768px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: Assistant, sans-serif;
   font-weight: bold;
 }
@@ -96,3 +98,11 @@ h1, h2, h3 {
   margin-top: 1rem;
 }
 
+.alert {
+  padding: 0.3rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.alert.alert-success {
+  background-color: #e7faf2;
+}
