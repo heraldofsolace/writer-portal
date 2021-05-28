@@ -1,18 +1,18 @@
 import {assignmentStatuses} from "../../constants/assignment-statuses";
 import {useState} from "react";
 
-export default function AcceptAssignment({assignment, handleAccept}) {
+export default function SubmitAssignment({assignment, handleSubmit}) {
     const [disabled, setDisabled] = useState(false);
 
-    // Allow writers to accept an assignment
-    const accept = async (e) => {
+    // Allow writers to submit an assignment
+    const submit = async (e) => {
         setDisabled(true);
-        fetch("/api/assignments/" + assignment.id + "/accept", {
+        fetch("/api/assignments/" + assignment.id + "/submit", {
             method: "POST",
         })
             .then((response) => {
                 if (response.ok) {
-                    handleAccept(e.target.value);
+                    handleSubmit(e.target.value);
                 } else {
                     throw new Error("Invalid response from backend");
                 }
@@ -25,10 +25,10 @@ export default function AcceptAssignment({assignment, handleAccept}) {
 
     return (
         <div className="assignment-actions">
-            {assignment.status === assignmentStatuses.accepted ? (
+            {assignment.status === assignmentStatuses.writing ? (
                 <div>
-                    <button className="pure-button button-success" onClick={accept} disabled={disabled}>
-                        Accept Assignment
+                    <button className="pure-button button-success" onClick={submit} disabled={disabled}>
+                        Submit Assignment
                     </button>
                 </div>
             ) : (

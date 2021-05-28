@@ -1,11 +1,11 @@
-import {accept} from "../../../../functions/assignments";
+import {submit} from "../../../../functions/assignments";
 
 export default async (req, res) => {
   const { assignmentId } = req.query;
 
   try {
-    // Update writer confirmed date
-    await accept(assignmentId);
+    // Update writer submitted date
+    await submit(assignmentId);
 
     res.statusCode = 204;
     res.end();

@@ -5,6 +5,8 @@ import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
 import AcceptAssignment from "../../components/assignments/accept-assignment";
 import { assignmentStatuses } from "../../constants/assignment-statuses";
+import SubmitAssignment from "../../components/assignments/submit-assignment";
+import AssignmentHeader from "../../components/assignments/assignment-header";
 dayjs.extend(localizedFormat);
 
 export default function Assignment() {
@@ -25,6 +27,13 @@ export default function Assignment() {
     });
   };
 
+  const handleSubmit = () => {
+    setAssignment({
+      ...assignment,
+      status: assignmentStatuses.ready_for_editing,
+    });
+  };
+
   // Get data from the API
   useEffect(() => {
     if (router.isReady) {
@@ -37,30 +46,7 @@ export default function Assignment() {
     <main>
       {assignment ? (
         <div>
-          {assignment.status === "Accepted" ? (
-            <div>
-              <h1>Confirm Your New Assignment</h1>
-              <p>
-                Please check the details of your assignment and confirm that you
-                are able to complete it by the due date by clicking "Accept
-                Assignment" at the bottom of this page.
-              </p>
-            </div>
-          ) : (
-            ""
-          )}
-          {assignment.status === "Writing" ? (
-            <div>
-              <h1>Assignment In Progress</h1>
-              <div className="alert alert-success">
-                <p>
-                  This assignment has been confirmed and is now being written.
-                </p>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
+          <AssignmentHeader assignment={assignment} />
           <table className="pure-table">
             <tbody>
               <tr>
@@ -97,6 +83,14 @@ export default function Assignment() {
             assignment={assignment}
             handleAccept={handleAccept}
           />
+          <SubmitAssignment
+            assignment={assignment}
+            handleSubmit={handleSubmit}
+          />
+          <p>
+            Have a question? Email{" "}
+            <a href="mailto:editor@draft.dev">editor@draft.dev</a>
+          </p>
         </div>
       ) : (
         <p>No assignment found.</p>
