@@ -29,7 +29,7 @@ export default function Writer() {
                 <div style={{minHeight: '300px'}}>
                     <h5 style={{fontWeight: 'bold', color: '#b3aa8d', textTransform: 'uppercase'}}>DRAFT.DEV Author
                         Profile</h5>
-                    <img src={writer.profile_photo} style={{float: 'right', maxWidth: '250px', marginLeft: '1rem'}}/>
+                    <img src={writer.profile_photo} style={{float: 'right', maxWidth: '250px', maxHeight: '250px', marginLeft: '1rem'}}/>
                     <h1>{writer.first_name} {writer.last_name}</h1>
                     <p style={{color: '#778780'}}>
                         {writer.location ? (
