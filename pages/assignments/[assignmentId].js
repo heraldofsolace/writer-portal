@@ -15,9 +15,14 @@ export default function Assignment() {
   const [assignment, setAssignment] = useState(null);
 
   // Gets this client's projects when they're logged in
-  const getAssignment = async () => {
-    const resp = await fetch(`/api/assignments/${assignmentId}`);
-    setAssignment(await resp.json());
+  const getAssignment = () => {
+    fetch(`/api/assignments/${assignmentId}`)
+        .then(resp => resp.json())
+        .then(json => setAssignment(json))
+        .catch(e => {
+          console.error(e);
+          setAssignment(false);
+        });
   };
 
   const handleAccept = () => {
@@ -92,8 +97,10 @@ export default function Assignment() {
             <a href="mailto:editor@draft.dev">editor@draft.dev</a>
           </p>
         </div>
+      ) : assignment === false ? (
+        <p>Assignment not found.</p>
       ) : (
-        <p>No assignment found.</p>
+        <p>Loading assignment...</p>
       )}
     </main>
   );
