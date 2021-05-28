@@ -17,18 +17,6 @@ export default async (req, res) => {
       // Respond with results
       res.statusCode = 200;
       res.json(rows[0]);
-    } else if (req.method === "PUT") {
-      // Update project complete status
-      await base(tableName).update([
-        {
-          id: assignmentId,
-          fields: { "Writer Confirmed": dayjs().toISOString() },
-        },
-      ]);
-
-      // Respond with a 204
-      res.statusCode = 204;
-      res.end();
     }
   } catch (e) {
     // Handle any errors

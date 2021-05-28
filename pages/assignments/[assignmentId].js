@@ -14,7 +14,6 @@ export default function Assignment() {
   const { assignmentId } = router.query;
   const [assignment, setAssignment] = useState(null);
 
-  // Gets this client's projects when they're logged in
   const getAssignment = () => {
     fetch(`/api/assignments/${assignmentId}`)
         .then(resp => resp.json())
@@ -39,14 +38,12 @@ export default function Assignment() {
     });
   };
 
-  // Get data from the API
   useEffect(() => {
     if (router.isReady) {
       getAssignment();
     }
   }, [router.isReady]);
 
-  // Display the client portal page
   return (
     <main>
       {assignment ? (

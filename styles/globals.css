@@ -81,28 +81,16 @@ h3 {
 
 .button-error {
   background: rgb(129, 71, 71);
-  /* this is a maroon */
 }
 
 .button-warning {
   background: rgb(160, 110, 65);
-  /* this is an orange */
 }
 
 .button-secondary {
   background: #b3aa8d;
-  /* this is a light blue */
 }
 
 .assignment-actions {
   margin-top: 1rem;
-}
-
-.alert {
-  padding: 0.3rem 1rem;
-  margin-bottom: 1rem;
-}
-
-.alert.alert-success {
-  background-color: #e7faf2;
 }

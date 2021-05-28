@@ -18,11 +18,13 @@ export default class Layout extends Component {
         </Head>
         <header>
           <div className="logo">
-            <a href="#" className="logo">
+            <a href="https://draft.dev" className="logo">
               DRAFT.DEV
             </a>
           </div>
-          <div className="site-name">Writer Portal</div>
+          <div className="site-name">
+            <a href="/">Writer Portal</a>
+          </div>
         </header>
         {children}
       </div>
