@@ -1,5 +1,5 @@
 export const assignmentStatuses = {
-  accepted: "Accepted",
+  assigning: "Assigning",
   writing: "Writing",
   ready_for_editing: "Ready for Editing",
   editing: "Editing",

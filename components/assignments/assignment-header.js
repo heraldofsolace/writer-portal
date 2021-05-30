@@ -3,7 +3,7 @@ import { assignmentStatuses } from "../../constants/assignment-statuses";
 export default function AssignmentHeader({ assignment }) {
   return (
       <>
-        {assignment.status === assignmentStatuses.accepted ? (
+        {assignment.status === assignmentStatuses.assigning ? (
             <div>
               <h1>Confirm Your New Assignment</h1>
               <p>

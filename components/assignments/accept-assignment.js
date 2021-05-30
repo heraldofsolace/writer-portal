@@ -25,7 +25,7 @@ export default function AcceptAssignment({assignment, handleAccept}) {
 
     return (
         <div className="assignment-actions">
-            {assignment.status === assignmentStatuses.accepted ? (
+            {assignment.status === assignmentStatuses.assigning ? (
                 <div>
                     <button className="pure-button button-success" onClick={accept} disabled={disabled}>
                         Accept Assignment
