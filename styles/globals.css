@@ -42,7 +42,12 @@ header .logo {
   flex: 1;
 }
 
-header .site-name {
+header .logo .site-name {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+header .navbar-right {
   line-height: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -93,4 +98,18 @@ h3 {
 
 .assignment-actions {
   margin-top: 1rem;
+}
+
+table td, table td * {
+  vertical-align: top;
+}
+
+footer {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 768px;
+}
+footer p {
+  font-size: .8rem;
 }

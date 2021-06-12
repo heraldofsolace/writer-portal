@@ -21,10 +21,22 @@ export default async (req, res) => {
 
     if (req.method === "GET") {
       // Get assignments
-      const query = `select assignments.*
+      const query = `select assignments.title,
+                            assignments.id,
+                            assignments.client_name,
+                            assignments.status,
+                            assignments.pitch,
+                            assignments.brief_url,
+                            assignments.published_url,
+                            assignments.writer_email,
+                            assignments.writer_payout,
+                            assignments.writer_due_date,
+                            assignments.writer_paid_date,
+                            assignments.writer
                      from assignments
                             join writers on writers.id = ANY (assignments.writer)
                      where writers.email like $1
+                     and assignments.writer_due_date is not null
                      order by assignments.writer_due_date desc;`;
       const { rows } = await pool.query(query, [decoded.payload.identifier]);
 

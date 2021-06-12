@@ -2,6 +2,8 @@ import Cotter from "cotter";
 import {useEffect, useState} from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
+import {truncate} from "lodash";
+
 dayjs.extend(localizedFormat);
 
 const cotterApiKeyId = process.env.NEXT_PUBLIC_COTTER_API_KEY_ID;
@@ -25,8 +27,9 @@ export default function Home() {
 
     // Shows the Cotter Login form and sets Access Token when authenticated
     useEffect(() => {
-        const cotter = new Cotter(cotterApiKeyId);
+        const cotter = new Cotter({ApiKeyID: cotterApiKeyId, ContainerID: "cotter-form-container-form_default"});
         cotter
+            .withFormID("form_default")
             .signInWithOTP()
             .showEmailForm()
             .then(payload => {
@@ -64,36 +67,57 @@ export default function Home() {
                 <div>
                     <h1 style={{textAlign: 'center'}}>Writer Portal</h1>
                     {assignments && assignments.length > 0 ? (
-                    <table className="pure-table">
-                        <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Due Date</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {assignments.map((assignment) => (
-                            <tr key={assignment.id}>
-                                <td><a href={"/assignments/" + assignment.id}>{assignment.title}</a></td>
-                                <td>{assignment.status}</td>
-                                <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
-                                <td>Details | Confirm</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                        <div>
+                            <h2><a href={"/writers/" + assignments[0].writer}>Your Profile ↠</a></h2>
+                            <h2>Your Assignments</h2>
+                            <table className="pure-table">
+                                <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Payment</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {assignments.map((assignment) => (
+                                    <tr key={assignment.id}>
+                                        <td>
+                                            <a href={"/assignments/" + assignment.id}>{assignment.title}</a><br/>
+                                            <small>For {assignment.client_name}</small>
+                                        </td>
+                                        <td>
+                                            {assignment.published_url ? (
+                                                <a href={assignment.published_url} target="_blank">
+                                                    Published
+                                                </a>
+                                            ) : (assignment.status)}
+                                        </td>
+                                        <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
+                                        <td>
+                                        ${assignment.writer_payout}{" "}
+                                        {assignment.writer_paid_date ? (
+                                            <span
+                                                title={'Payment initiated on ' + dayjs(assignment.writer_paid_date).format("LL")}>✅</span>
+                                        ) : ('')}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
                     ) : (
-                        <p>No assignments found.</p>
+                        <p>
+                            No assignments found. Be sure to use the same email to log in that you used to apply for Draft.dev.
+                            If you think you've encountered an error, <a href="mailto:karl@draft.dev">contact karl@draft.dev</a>.</p>
                     )}
                     <p><a href="#" onClick={logOut}>Log out</a>.</p>
                 </div>
             ) : (
                 <div style={{textAlign: 'center'}}>
                     <h1>Writer Portal</h1>
-                    <p>Sign in to view your assignments.</p>
-                    <div id="cotter-form-container" style={{width: 300, height: 200, margin: '1rem auto'}}/>
+                    <p>This portal is exclusively for <a href="https://draft.dev/">Draft.dev</a> writers.</p>
+                    <p>Log in to view your assignments.</p>
+                    <div id="cotter-form-container-form_default" style={{width: 300, height: 200, margin: '1rem auto'}}></div>
                 </div>
             )}
         </main>

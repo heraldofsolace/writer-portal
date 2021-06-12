@@ -67,6 +67,16 @@ export default function Assignment() {
                   </a>
                 </td>
               </tr>
+              {assignment.published_url ? (
+                  <tr>
+                    <th>Published URL</th>
+                    <td style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
+                      <a href={assignment.published_url} target="_blank">
+                        {truncate(assignment.published_url, { length: 55 })}
+                      </a>
+                    </td>
+                  </tr>
+              ) : ("")}
               <tr>
                 <th>Writer Assigned</th>
                 <td>{assignment.writer_email}</td>
