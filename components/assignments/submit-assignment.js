@@ -27,8 +27,9 @@ export default function SubmitAssignment({assignment, handleSubmit}) {
         <div className="assignment-actions">
             {assignment.status === assignmentStatuses.writing ? (
                 <div>
+                    <p>Are you <strong>totally finished</strong> with this assignment?</p>
                     <button className="pure-button button-success" onClick={submit} disabled={disabled}>
-                        Submit Assignment
+                        Submit for Editorial Review
                     </button>
                 </div>
             ) : (
