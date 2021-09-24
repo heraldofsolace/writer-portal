@@ -29,7 +29,7 @@ export default class Layout extends Component {
         </header>
         {children}
         <footer>
-          <p>Questions? Email <a href="mailto:karl@draft.dev">karl@draft.dev</a></p>
+          <p>For general inquiries or technical support, email <a href="mailto:karl@draft.dev">karl@draft.dev</a></p>
         </footer>
       </div>
     );

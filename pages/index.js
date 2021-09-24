@@ -2,7 +2,6 @@ import Cotter from "cotter";
 import {useEffect, useState} from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
-import {truncate} from "lodash";
 
 dayjs.extend(localizedFormat);
 

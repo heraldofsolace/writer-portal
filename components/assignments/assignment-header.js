@@ -3,7 +3,7 @@ import { assignmentStatuses } from "../../constants/assignment-statuses";
 export default function AssignmentHeader({ assignment }) {
   return (
       <>
-        {assignment.status === assignmentStatuses.assigning ? (
+        {assignment.status === assignmentStatuses.assigning && assignment.writer_email.length > 0 ? (
             <div>
               <h1>Confirm Your New Assignment</h1>
               <p>
@@ -11,6 +11,13 @@ export default function AssignmentHeader({ assignment }) {
                 are able to complete it by the due date by clicking "Accept
                 Assignment" at the bottom of this page.
               </p>
+            </div>
+        ) : assignment.status === assignmentStatuses.assigning && assignment.writer_email.length === 0 ? (
+            <div>
+                <h1>Request Assignment</h1>
+                <p>
+                    Click the link below to request this assignment and our editors will follow up soon (typically within 3 days).
+                </p>
             </div>
         ) : assignment.status === assignmentStatuses.writing ? (
             <div>

@@ -104,12 +104,27 @@ table td, table td * {
   vertical-align: top;
 }
 
+p.error {
+  color: #8d5d5d;
+}
+
+p.success {
+  color: #778780;
+}
+
+/*input {*/
+/*  margin-bottom: .5rem;*/
+/*  padding: .3rem;*/
+/*  font-size: .8rem;*/
+/*  color: #5e5e5e;*/
+/*}*/
+
 footer {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   max-width: 768px;
 }
-footer p {
+footer p, .small {
   font-size: .8rem;
 }
