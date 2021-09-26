@@ -19,6 +19,7 @@ export default async (req, res) => {
                                   assignments.writer_payout,
                                   assignments.writer_due_date,
                                   assignments.writer_paid_date,
+                                  assignments.writer_deliverables,
                                   assignments.writer
                            from assignments
                            where assignments.id like $1;`;

@@ -97,6 +97,10 @@ export default function Assignment() {
                             <th>Due Date</th>
                             <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
                         </tr>
+                        <tr>
+                            <th>Deliverables</th>
+                            <td>{assignment.writer_deliverables.join(", ")}</td>
+                        </tr>
                         </tbody>
                     </table>
                     <RequestAssignment
