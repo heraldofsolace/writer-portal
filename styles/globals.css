@@ -112,12 +112,9 @@ p.success {
   color: #778780;
 }
 
-/*input {*/
-/*  margin-bottom: .5rem;*/
-/*  padding: .3rem;*/
-/*  font-size: .8rem;*/
-/*  color: #5e5e5e;*/
-/*}*/
+.pure-menu-selected {
+  background-color: #eee;
+}
 
 footer {
   text-align: center;

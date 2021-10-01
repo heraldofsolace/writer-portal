@@ -2,19 +2,19 @@ import Cotter from "cotter";
 import {useEffect, useState} from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
-import SecondaryNav from "../components/navs/secondary-nav";
+import SecondaryNav from "../../components/navs/secondary-nav";
 
 dayjs.extend(localizedFormat);
 
 const cotterApiKeyId = process.env.NEXT_PUBLIC_COTTER_API_KEY_ID;
 
-export default function Home() {
+export default function Available() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [assignments, setAssignments] = useState(null);
 
     const getAssignments = () => {
         const token = localStorage.getItem("ACCESS_TOKEN");
-        fetch(`/api/assignments`, {
+        fetch(`/api/assignments/available`, {
             headers: {Authorization: `Bearer ${token}`},
         })
             .then(resp => resp.json())
@@ -68,14 +68,13 @@ export default function Home() {
                     <h1 style={{textAlign: 'center'}}>Writer Portal</h1>
                     {assignments && assignments.length > 0 ? (
                         <div>
-                            <SecondaryNav currentPage='assignments'></SecondaryNav>
+                            <SecondaryNav currentPage='available'></SecondaryNav>
                             <table className="pure-table">
                                 <thead>
                                 <tr>
                                     <th>Title</th>
-                                    <th>Status</th>
                                     <th>Due Date</th>
-                                    <th>Payment</th>
+                                    <th>Categories</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -85,20 +84,8 @@ export default function Home() {
                                             <a href={"/assignments/" + assignment.id}>{assignment.title}</a><br/>
                                             <small>For {assignment.client_name}</small>
                                         </td>
-                                        <td>
-                                            {assignment.published_url ? (
-                                                <a href={assignment.published_url} target="_blank">
-                                                    Published
-                                                </a>
-                                            ) : (assignment.status)}
-                                        </td>
                                         <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
-                                        <td>
-                                        ${assignment.writer_payout}{" "}
-                                        {assignment.writer_paid_date ? (
-                                            <span
-                                                title={'Payment initiated on ' + dayjs(assignment.writer_paid_date).format("LL")}>✅</span>
-                                        ) : ('')}</td>
+                                        <td>{assignment.content_category_names}</td>
                                     </tr>
                                 ))}
                                 </tbody>

@@ -6,8 +6,8 @@ export default function RequestAssignment({assignment}) {
     const [message, setMessage] = useState(false);
     const [email, setEmail] = useState(() =>
         JSON.parse(localStorage.getItem('COTTER_USER')) ?
-            JSON.parse(localStorage.getItem('COTTER_USER')).identifier :
-            '');
+            JSON.parse(localStorage.getItem('COTTER_USER')).identifier : ''
+    );
 
     // Allow writers to accept an assignment
     const request = async (e) => {
