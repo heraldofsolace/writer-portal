@@ -4,7 +4,7 @@ import {useState} from "react";
 export default function RequestAssignment({assignment}) {
     const [disabled, setDisabled] = useState(false);
     const [message, setMessage] = useState(false);
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(() => JSON.parse(localStorage.getItem('COTTER_USER')).identifier || '');
 
     // Allow writers to accept an assignment
     const request = async (e) => {
@@ -42,7 +42,7 @@ export default function RequestAssignment({assignment}) {
                 <form className="pure-form" onSubmit={request}>
                     <label>Your Email Address</label>
                     <p className="small">Must match the email you used when applying to Draft.dev</p>
-                    <div style={{"margin-bottom": ".5rem"}}>
+                    <div style={{"marginBottom": ".5rem"}}>
                         <input name="email" type="email" placeholder="Email Address" required value={email} onChange={e => setEmail(e.target.value)} />
                     </div>
                     <button className="pure-button button-success" type="submit" disabled={disabled || !email}>

@@ -1,4 +1,5 @@
 export const assignmentStatuses = {
+  planning: "Planning",
   assigning: "Assigning",
   writing: "Writing",
   ready_for_editing: "Ready for Editing",
@@ -9,4 +10,7 @@ export const assignmentStatuses = {
   ready_to_submit: "Ready to Submit",
   submitted: "Submitted",
   client_revisions: "Client Revisions",
+  cr_in_edits: "CR in Edits",
+  cr_complete: "CR Complete",
+  published: "Published",
 };
