@@ -9,6 +9,7 @@ import {assignmentStatuses} from "../../constants/assignment-statuses";
 import SubmitAssignment from "../../components/assignments/submit-assignment";
 import AssignmentHeader from "../../components/assignments/assignment-header";
 import AuthedOnly from "../../components/authed-only";
+import SecondaryNav from "../../components/navs/secondary-nav";
 
 dayjs.extend(localizedFormat);
 

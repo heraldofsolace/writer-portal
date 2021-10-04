@@ -14,6 +14,7 @@ export default function AssignmentHeader({ assignment }) {
             </div>
         ) : assignment.status === assignmentStatuses.assigning && assignment.writer_email.length === 0 ? (
             <div>
+                <a href={"/assignments/available"}>⬅ All Available Assignments</a>
                 <h1>Request Assignment</h1>
                 <p>
                     Click the link below to request this assignment and our editors will follow up soon (typically within 3 days).
@@ -21,6 +22,7 @@ export default function AssignmentHeader({ assignment }) {
             </div>
         ) : assignment.status === assignmentStatuses.writing ? (
             <div>
+              <a href={"/assignments"}>⬅ All Your Assignments</a>
               <h1>Assignment In Progress</h1>
               <p>
                 This assignment has been confirmed and is now being written.
@@ -28,6 +30,7 @@ export default function AssignmentHeader({ assignment }) {
             </div>
         ) : assignment.status === assignmentStatuses.ready_for_editing ? (
             <div>
+              <a href={"/assignments"}>⬅ All Your Assignments</a>
               <h1>Assignment Submitted</h1>
               <p>
                 This assignment has been submitted to our editors. We'll let you know
@@ -36,6 +39,7 @@ export default function AssignmentHeader({ assignment }) {
             </div>
         ) : (
             <div>
+              <a href={"/assignments"}>⬅ All Your Assignments</a>
               <h1>Assignment Details</h1>
             </div>
         )}
