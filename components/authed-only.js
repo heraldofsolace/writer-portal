@@ -43,15 +43,15 @@ export default function AuthedOnly({children}) {
     return (
         <main>
             {isLoggedIn ? (
-                <div>
+                <>
                     {children}
                     <p><a href="#" onClick={logOut}>Log out</a></p>
-                </div>
+                </>
             ) : (
                 <div style={{textAlign: 'center'}}>
                     <h1>Writer Portal</h1>
                     <p>This portal is exclusively for <a href="https://draft.dev/">Draft.dev</a> writers.</p>
-                    <p>Log in to view your assignments.</p>
+                    <p>Log in using the same email you used to apply.</p>
                     <div id="cotter-form-container-form_default" style={{width: 300, height: 200, margin: '1rem auto'}}></div>
                 </div>
             )}

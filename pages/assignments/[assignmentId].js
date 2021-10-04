@@ -8,6 +8,7 @@ import RequestAssignment from "../../components/assignments/request-assignment";
 import {assignmentStatuses} from "../../constants/assignment-statuses";
 import SubmitAssignment from "../../components/assignments/submit-assignment";
 import AssignmentHeader from "../../components/assignments/assignment-header";
+import AuthedOnly from "../../components/authed-only";
 
 dayjs.extend(localizedFormat);
 
@@ -43,13 +44,26 @@ export default function Assignment() {
 
     useEffect(() => {
         if (router.isReady) {
-            setCurrentUser(JSON.parse(localStorage.getItem("COTTER_USER")));
             getAssignment();
         }
     }, [router.isReady]);
 
+    // Sets local user variable
+    useEffect(() => {
+        if (localStorage.getItem("COTTER_USER") !== null) {
+            setCurrentUser(JSON.parse(localStorage.getItem("COTTER_USER")));
+        }
+    }, []);
+
+    const belongsToCurrentUser = () => {
+        return assignment.writer_email &&
+            assignment.writer_email.length > 0 &&
+            assignment.writer_email[0] &&
+            assignment.writer_email[0] === currentUser.identifier
+    }
+
     return (
-        <main>
+        <AuthedOnly>
             {assignment ? (
                 <div>
                     <AssignmentHeader assignment={assignment}/>
@@ -63,7 +77,7 @@ export default function Assignment() {
                             <th>Pitch</th>
                             <td>{assignment.pitch}</td>
                         </tr>
-                        {assignment.writer_email.length > 0 ? (
+                        {belongsToCurrentUser() ? (
                             <tr>
                                 <th>Brief URL</th>
                                 <td style={{overflow: "hidden", whiteSpace: "nowrap"}}>
@@ -82,7 +96,7 @@ export default function Assignment() {
                                 </td>
                             </tr>
                         ) : null}
-                        {assignment.writer_email.length > 0 ? (
+                        {belongsToCurrentUser() ? (
                             <>
                                 <tr>
                                     <th>Writer Assigned</th>
@@ -105,15 +119,20 @@ export default function Assignment() {
                     </table>
                     <RequestAssignment
                         assignment={assignment}
+                        currentUser={currentUser}
                     />
-                    <AcceptAssignment
-                        assignment={assignment}
-                        handleAccept={handleAccept}
-                    />
-                    <SubmitAssignment
-                        assignment={assignment}
-                        handleSubmit={handleSubmit}
-                    />
+                    {belongsToCurrentUser() ? (
+                        <>
+                            <AcceptAssignment
+                                assignment={assignment}
+                                handleAccept={handleAccept}
+                            />
+                            <SubmitAssignment
+                                assignment={assignment}
+                                handleSubmit={handleSubmit}
+                            />
+                        </>
+                    ) : (null)}
                     <p>
                         Have a question about this assignment? Email{" "}
                         <a href="mailto:editor@draft.dev">editor@draft.dev</a>
@@ -124,6 +143,6 @@ export default function Assignment() {
             ) : (
                 <p>Loading assignment...</p>
             )}
-        </main>
+        </AuthedOnly>
     );
 }

@@ -1,13 +1,9 @@
 import {assignmentStatuses} from "../../constants/assignment-statuses";
 import {useState} from "react";
 
-export default function RequestAssignment({assignment}) {
+export default function RequestAssignment({assignment, currentUser}) {
     const [disabled, setDisabled] = useState(false);
     const [message, setMessage] = useState(false);
-    const [email, setEmail] = useState(() =>
-        JSON.parse(localStorage.getItem('COTTER_USER')) ?
-            JSON.parse(localStorage.getItem('COTTER_USER')).identifier : ''
-    );
 
     // Allow writers to accept an assignment
     const request = async (e) => {
@@ -16,7 +12,7 @@ export default function RequestAssignment({assignment}) {
         setMessage(false);
         fetch("/api/assignments/" + assignment.id + "/request", {
             method: "POST",
-            body: JSON.stringify({email}),
+            body: JSON.stringify({email: currentUser.identifier}),
         })
             .then((response) => {
                 if (response.ok) {
@@ -31,7 +27,7 @@ export default function RequestAssignment({assignment}) {
             })
             .catch((error) => {
                 setMessage({
-                    body: "Whoops, something went wrong. Most likely your email address is not correct, but let us know if this might be an error.",
+                    body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually request this assignment.",
                     type: "error",
                 });
                 console.error(error);
@@ -43,12 +39,7 @@ export default function RequestAssignment({assignment}) {
         <div className="assignment-actions">
             {assignment.status === assignmentStatuses.assigning && assignment.writer_email.length === 0 ? (
                 <form className="pure-form" onSubmit={request}>
-                    <label>Your Email Address</label>
-                    <p className="small">Must match the email you used when applying to Draft.dev</p>
-                    <div style={{"marginBottom": ".5rem"}}>
-                        <input name="email" type="email" placeholder="Email Address" required value={email} onChange={e => setEmail(e.target.value)} />
-                    </div>
-                    <button className="pure-button button-success" type="submit" disabled={disabled || !email}>
+                    <button className="pure-button button-success" type="submit" disabled={disabled || !currentUser.identifier}>
                         Request Assignment
                     </button>
                     {message ? (
