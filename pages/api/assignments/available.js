@@ -30,15 +30,20 @@ export default async (req, res) => {
                             assignments.writer_due_date,
                             assignments.writer,
                             assignments.content_categories,
-                            string_agg(content_categories.name, ', ') as content_category_names
+                            string_agg(content_categories.name, ', ') as content_category_names,
+                            your_requests.request_date
                      from assignments
                             left join content_categories on content_categories.id = ANY (assignments.content_categories)
+                            left join (
+                                select * from requests
+                                where $2 = ANY (writer_email)
+                            ) as your_requests on your_requests.id = ANY (assignments.requests)
                      where assignments.status like $1
                      and assignments.writer_due_date < current_date + interval '30' day
                      and assignments.writer = '{}'
-                     group by assignments.id
+                     group by assignments.id, your_requests.request_date
                      order by assignments.writer_due_date asc;`;
-      const { rows } = await pool.query(query, ['Assigning']);
+      const { rows } = await pool.query(query, ['Assigning', decoded.payload.identifier]);
 
       // Respond with results
       res.statusCode = 200;
