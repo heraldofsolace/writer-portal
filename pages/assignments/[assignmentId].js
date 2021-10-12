@@ -9,7 +9,6 @@ import {assignmentStatuses} from "../../constants/assignment-statuses";
 import SubmitAssignment from "../../components/assignments/submit-assignment";
 import AssignmentHeader from "../../components/assignments/assignment-header";
 import AuthedOnly from "../../components/authed-only";
-import SecondaryNav from "../../components/navs/secondary-nav";
 
 dayjs.extend(localizedFormat);
 
@@ -20,7 +19,10 @@ export default function Assignment() {
     const [currentUser, setCurrentUser] = useState(null);
 
     const getAssignment = () => {
-        fetch(`/api/assignments/${assignmentId}`)
+        const token = localStorage.getItem("ACCESS_TOKEN");
+        fetch(`/api/assignments/${assignmentId}`, {
+            headers: {Authorization: `Bearer ${token}`},
+        })
             .then(resp => resp.json())
             .then(json => setAssignment(json))
             .catch(e => {

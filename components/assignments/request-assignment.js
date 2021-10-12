@@ -39,8 +39,8 @@ export default function RequestAssignment({assignment, currentUser}) {
         <div className="assignment-actions">
             {assignment.status === assignmentStatuses.assigning && assignment.writer_email.length === 0 ? (
                 <form className="pure-form" onSubmit={request}>
-                    <button className="pure-button button-success" type="submit" disabled={disabled || !currentUser.identifier}>
-                        Request Assignment
+                    <button className="pure-button button-success" type="submit" disabled={disabled || !currentUser.identifier || assignment.request_date}>
+                        {assignment.request_date ? (' ✔ Request Submitted️') : ('Request Assignment')}
                     </button>
                     {message ? (
                         <p className={message.type}>{message.body}</p>

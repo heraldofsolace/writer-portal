@@ -59,7 +59,7 @@ export default function Available() {
                                     <td>
                                         <a href={"/assignments/" + assignment.id}>{assignment.title}</a>
                                         <br/>
-                                        <small>{assignment.request_date ? (' ✔ Application submitted️') : 'For ' + assignment.client_name}</small>
+                                        <small>{assignment.request_date ? (' ✔ Request Submitted️') : 'For ' + assignment.client_name}</small>
                                     </td>
                                     <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
                                     <td>{assignment.content_category_names}</td>
