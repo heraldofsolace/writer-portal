@@ -22,7 +22,7 @@ export default function AssignmentHeader({ assignment }) {
             </div>
         ) : assignment.status === assignmentStatuses.writing ? (
             <div>
-              <a href={"/assignments"}>⬅ All Your Assignments</a>
+              <a href={"/"}>⬅ All Your Assignments</a>
               <h1>Assignment In Progress</h1>
               <p>
                 This assignment has been confirmed and is now being written.

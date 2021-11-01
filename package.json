@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start"
   },
+  "engines": {
+    "node": "15"
+  },
   "dependencies": {
     "airtable": "^0.11.0",
     "cotter": "^0.3.33",
