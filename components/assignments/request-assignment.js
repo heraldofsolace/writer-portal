@@ -1,18 +1,18 @@
 import {assignmentStatuses} from "../../constants/assignment-statuses";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-export default function RequestAssignment({assignment, currentUser}) {
+export default function RequestAssignment({assignment, userData}) {
     const [disabled, setDisabled] = useState(false);
     const [message, setMessage] = useState(false);
 
-    // Allow writers to accept an assignment
+    // Allow writers to request an assignment
     const request = async (e) => {
         e.preventDefault();
         setDisabled(true);
         setMessage(false);
         fetch("/api/assignments/" + assignment.id + "/request", {
             method: "POST",
-            body: JSON.stringify({email: currentUser.identifier}),
+            body: JSON.stringify({email: userData.email}),
         })
             .then((response) => {
                 if (response.ok) {
@@ -35,11 +35,21 @@ export default function RequestAssignment({assignment, currentUser}) {
             });
     };
 
+    useEffect(() => {
+        if (!assignment.request_date && userData && userData.writer_at_max_requests[0] === "1") {
+            setMessage({
+                body: "It looks like you've hit your request limit. New writers are typically limited to 5 open requests, but you can reach out to us if you'd like to have this limit lifted.",
+                type: "error",
+            });
+        }
+    }, [userData, assignment]);
+
+
     return (
         <div className="assignment-actions">
             {assignment.status === assignmentStatuses.assigning && assignment.writer_email.length === 0 ? (
                 <form className="pure-form" onSubmit={request}>
-                    <button className="pure-button button-success" type="submit" disabled={disabled || !currentUser.identifier || assignment.request_date}>
+                    <button className="pure-button button-success" type="submit" disabled={disabled || assignment.request_date || !userData || userData.writer_at_max_requests[0] === "1"}>
                         {assignment.request_date ? (' ✔ Request Submitted️') : ('Request Assignment')}
                     </button>
                     {message ? (

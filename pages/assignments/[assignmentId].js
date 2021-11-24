@@ -17,6 +17,7 @@ export default function Assignment() {
     const {assignmentId} = router.query;
     const [assignment, setAssignment] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
+    const [userData, setUserData] = useState(null);
 
     const getAssignment = () => {
         const token = localStorage.getItem("ACCESS_TOKEN");
@@ -28,6 +29,19 @@ export default function Assignment() {
             .catch(e => {
                 console.error(e);
                 setAssignment(false);
+            });
+    };
+
+    const getUserData = () => {
+        const token = localStorage.getItem("ACCESS_TOKEN");
+        fetch(`/api/writers/me`, {
+            headers: {Authorization: `Bearer ${token}`},
+        })
+            .then(resp => resp.json())
+            .then(json => setUserData(json))
+            .catch(e => {
+                console.error(e);
+                setUserData(false);
             });
     };
 
@@ -48,6 +62,7 @@ export default function Assignment() {
     useEffect(() => {
         if (router.isReady) {
             getAssignment();
+            getUserData();
         }
     }, [router.isReady]);
 
@@ -122,7 +137,7 @@ export default function Assignment() {
                     </table>
                     <RequestAssignment
                         assignment={assignment}
-                        currentUser={currentUser}
+                        userData={userData}
                     />
                     {belongsToCurrentUser() ? (
                         <>
