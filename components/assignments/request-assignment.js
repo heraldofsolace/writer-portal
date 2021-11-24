@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 
 export default function RequestAssignment({assignment, userData}) {
     const [disabled, setDisabled] = useState(false);
+    const [cancelDisabled, setCancelDisabled] = useState(false);
     const [message, setMessage] = useState(false);
 
     // Allow writers to request an assignment
@@ -35,6 +36,33 @@ export default function RequestAssignment({assignment, userData}) {
             });
     };
 
+    // Allow writers to unrequest an assignment
+    const unrequest = async (e) => {
+        e.preventDefault();
+        setCancelDisabled(true);
+        setMessage(false);
+        fetch("/api/requests/" + assignment.request_id, {method: "DELETE"})
+            .then((response) => {
+                if (response.ok) {
+                    setMessage({
+                        body: "Success! Your request has been canceled.",
+                        type: "success",
+                    });
+                    setCancelDisabled(true);
+                } else {
+                    throw new Error("Invalid response from backend");
+                }
+            })
+            .catch((error) => {
+                setMessage({
+                    body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually cancel this request.",
+                    type: "error",
+                });
+                console.error(error);
+                setCancelDisabled(false);
+            });
+    };
+
     useEffect(() => {
         if (!assignment.request_date && userData && userData.writer_at_max_requests[0] === "1") {
             setMessage({
@@ -52,6 +80,9 @@ export default function RequestAssignment({assignment, userData}) {
                     <button className="pure-button button-success" type="submit" disabled={disabled || assignment.request_date || !userData || userData.writer_at_max_requests[0] === "1"}>
                         {assignment.request_date ? (' ✔ Request Submitted️') : ('Request Assignment')}
                     </button>
+                    {assignment.request_id ? (
+                        <a className="pure-button button-warning" style={{"marginLeft": "1rem"}} href="#" onClick={unrequest} disabled={cancelDisabled}>Cancel Request</a>
+                    ) : null}
                     {message ? (
                         <p className={message.type}>{message.body}</p>
                     ) : null}
