@@ -30,7 +30,7 @@ export default function AssignmentHeader({ assignment }) {
             </div>
         ) : assignment.status === assignmentStatuses.ready_for_editing ? (
             <div>
-              <a href={"/assignments"}>⬅ All Your Assignments</a>
+              <a href={"/"}>⬅ All Your Assignments</a>
               <h1 style={{textAlign: 'center'}}>Assignment Submitted</h1>
               <p>
                 This assignment has been submitted to our editors. We'll let you know
@@ -39,7 +39,7 @@ export default function AssignmentHeader({ assignment }) {
             </div>
         ) : (
             <div>
-              <a href={"/assignments"}>⬅ All Your Assignments</a>
+              <a href={"/"}>⬅ All Your Assignments</a>
               <h1 style={{textAlign: 'center'}}>Assignment Details</h1>
             </div>
         )}
