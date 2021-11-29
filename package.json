@@ -17,6 +17,7 @@
     "cotter-token-js": "^0.1.11",
     "dayjs": "^1.10.4",
     "lodash": "^4.17.21",
+    "logrocket": "^2.1.2",
     "next": "10.2.0",
     "pg": "^8.6.0",
     "prettier": "^2.3.0",
