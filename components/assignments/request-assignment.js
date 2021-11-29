@@ -77,7 +77,7 @@ export default function RequestAssignment({assignment, userData}) {
         <div className="assignment-actions">
             {assignment.status === assignmentStatuses.assigning && assignment.writer_email.length === 0 ? (
                 <form className="pure-form" onSubmit={request}>
-                    <button className="pure-button button-success" type="submit" disabled={disabled || assignment.request_date || !userData || !userData.writer_at_max_requests || userData.writer_at_max_requests[0] === "1"}>
+                    <button className="pure-button button-success" type="submit" disabled={disabled || assignment.request_date || !userData || (userData.writer_at_max_requests && userData.writer_at_max_requests[0] === "1")}>
                         {assignment.request_date ? (' ✔ Request Submitted️') : ('Request Assignment')}
                     </button>
                     {assignment.request_id ? (
