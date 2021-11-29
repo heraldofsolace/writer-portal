@@ -10,7 +10,6 @@ const base = new Airtable({
 }).base(process.env.AIRTABLE_BASE);
 
 const getWriterIdFromEmail = async (email) => {
-  console.log(email);
   const query = `select writers.id, writers.email
                      from writers
                      where writers.email like $1

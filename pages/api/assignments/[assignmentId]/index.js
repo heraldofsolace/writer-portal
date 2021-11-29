@@ -36,7 +36,8 @@ export default async (req, res) => {
                                   assignments.writer_paid_date,
                                   assignments.writer_deliverables,
                                   assignments.writer,
-                                  your_requests.request_date
+                                  your_requests.request_date,
+                                  your_requests.id as request_id
                            from assignments
                            left join (
                                select * from requests
