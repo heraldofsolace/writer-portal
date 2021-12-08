@@ -1,6 +1,8 @@
 export const assignmentStatuses = {
   planning: "Planning",
   assigning: "Assigning",
+  matched: "Matched",
+  writer_not_fit: "Writer Not Fit",
   writing: "Writing",
   ready_for_editing: "Ready for Editing",
   editing: "Editing",

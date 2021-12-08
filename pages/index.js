@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
 import SecondaryNav from "../components/navs/secondary-nav";
@@ -13,7 +13,7 @@ export default function Home() {
     const getAssignments = () => {
         const token = localStorage.getItem("ACCESS_TOKEN");
         fetch(`/api/assignments`, {
-            headers: {Authorization: `Bearer ${token}`},
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then(resp => resp.json())
             .then(json => setAssignments(json))
@@ -40,42 +40,45 @@ export default function Home() {
     // Display the login page
     return (
         <AuthedOnly>
-            <h1 style={{textAlign: 'center'}}>Writer Portal</h1>
+            <h1 style={{ textAlign: 'center' }}>Writer Portal</h1>
             {assignments && assignments.length > 0 ? (
                 <div>
                     <SecondaryNav currentPage='assignments'></SecondaryNav>
                     <table className="pure-table">
                         <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Due Date</th>
-                            <th>Payment</th>
-                        </tr>
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Payment</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {assignments.map((assignment) => (
-                            <tr key={assignment.id}>
-                                <td>
-                                    <a href={"/assignments/" + assignment.id}>{assignment.title}</a><br/>
-                                    <small>For {assignment.client_name}</small>
-                                </td>
-                                <td>
-                                    {assignment.published_url ? (
-                                        <a href={assignment.published_url} target="_blank">
-                                            Published
-                                        </a>
-                                    ) : (assignment.status)}
-                                </td>
-                                <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
-                                <td>
-                                    ${assignment.writer_payout}{" "}
-                                    {assignment.writer_paid_date ? (
-                                        <span
-                                            title={'Payment initiated on ' + dayjs(assignment.writer_paid_date).format("LL")}>✅</span>
-                                    ) : ('')}</td>
-                            </tr>
-                        ))}
+                            {assignments
+                                .filter(a => a.status != "Writer Not Fit")
+                                .filter(a => a.status != "Assigning")
+                                .map((assignment) => (
+                                    <tr key={assignment.id}>
+                                        <td>
+                                            <a href={"/assignments/" + assignment.id}>{assignment.title}</a><br />
+                                            <small>For {assignment.client_name}</small>
+                                        </td>
+                                        <td>
+                                            {assignment.published_url ? (
+                                                <a href={assignment.published_url} target="_blank">
+                                                    Published
+                                                </a>
+                                            ) : (assignment.status)}
+                                        </td>
+                                        <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
+                                        <td>
+                                            ${assignment.writer_payout}{" "}
+                                            {assignment.writer_paid_date ? (
+                                                <span
+                                                    title={'Payment initiated on ' + dayjs(assignment.writer_paid_date).format("LL")}>✅</span>
+                                            ) : ('')}</td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>
@@ -84,7 +87,7 @@ export default function Home() {
                     No assignments found. Be sure to use the same email to log in that you used to apply for
                     Draft.dev.
                     If you think you've encountered an error, <a href="mailto:karl@draft.dev">contact
-                    karl@draft.dev</a>.
+                        karl@draft.dev</a>.
                 </p>
             ) : (
                 <p>Loading...</p>

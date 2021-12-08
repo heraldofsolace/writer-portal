@@ -1,7 +1,7 @@
-import {assignmentStatuses} from "../../constants/assignment-statuses";
-import {useState} from "react";
+import { assignmentStatuses } from "../../constants/assignment-statuses";
+import { useState } from "react";
 
-export default function AcceptAssignment({assignment, handleAccept}) {
+export default function AcceptAssignment({ assignment, handleAccept }) {
     const [disabled, setDisabled] = useState(false);
 
     // Allow writers to accept an assignment
@@ -25,7 +25,7 @@ export default function AcceptAssignment({assignment, handleAccept}) {
 
     return (
         <div className="assignment-actions">
-            {assignment.status === assignmentStatuses.assigning && assignment.writer_email.length > 0 ? (
+            {assignment.status === assignmentStatuses.matched && assignment.writer_email.length > 0 ? (
                 <div>
                     <button className="pure-button button-success" onClick={accept} disabled={disabled}>
                         Accept Assignment
