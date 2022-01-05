@@ -103,6 +103,9 @@ h3 {
 table td, table td * {
   vertical-align: top;
 }
+table.pure-table {
+  width: 100%;
+}
 
 p.error {
   color: #8d5d5d;
@@ -124,4 +127,16 @@ footer {
 }
 footer p, .small {
   font-size: .8rem;
+}
+
+.cl-component {
+  --clerk-box-shadow: none;
+}
+
+.cl-component .cl-auth-form-link {
+  display: none !important;
+}
+
+.cl-component .cl-auth-form-header {
+  display: none !important;
 }

@@ -1,26 +1,14 @@
-import {CotterAccessToken} from "cotter-token-js";
 const { Pool } = require("pg");
 const connectionString = process.env.PG_CONNECTION_STRING;
 const pool = new Pool({ connectionString });
+import { requireSession, users } from "@clerk/nextjs/api";
 
-export default async (req, res) => {
-  // Check that the authorization header exists
-  if (!("authorization" in req.headers)) {
-    res.statusCode = 401;
-    return res.end("Authorization header missing");
-  }
-
-  // Extract the token string
-  const auth = await req.headers.authorization;
-  const bearer = auth.split(" ");
-  const token = bearer[1];
-
+export default requireSession(async (req, res) => {
   try {
-    // Decode the Cotter JWT, "decoded.payload.identifier" is the user's email
-    const decoded = new CotterAccessToken(token);
-
     if (req.method === "GET") {
-      // Get assignments
+      // Get user from Clerk API
+      const user = await users.getUser(req.session.userId);
+      // Get assignments for user
       const query = `select assignments.title,
                             assignments.id,
                             assignments.client_name,
@@ -38,7 +26,7 @@ export default async (req, res) => {
                      where writers.email like $1
                      and assignments.writer_due_date is not null
                      order by assignments.writer_due_date desc;`;
-      const { rows } = await pool.query(query, [decoded.payload.identifier]);
+      const { rows } = await pool.query(query, [user.emailAddresses[0].emailAddress]);
 
       // Respond with results
       res.statusCode = 200;
@@ -50,4 +38,4 @@ export default async (req, res) => {
     res.statusCode = 500;
     return res.end("Server error. Something went wrong.");
   }
-};
+});
