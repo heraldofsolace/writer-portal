@@ -8,9 +8,10 @@
     "start": "next start"
   },
   "engines": {
-    "node": ">=14.0"
+    "node": ">=12.22"
   },
   "dependencies": {
+    "@clerk/nextjs": "^2.6.0",
     "airtable": "^0.11.0",
     "cotter": "^0.3.33",
     "cotter-node": "^0.1.3",

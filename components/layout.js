@@ -1,6 +1,7 @@
 // components/Layout.js
 import React, { Component } from "react";
 import Head from "next/head";
+import { UserButton } from "@clerk/clerk-react";
 
 export default class Layout extends Component {
   render() {
@@ -24,7 +25,7 @@ export default class Layout extends Component {
             </a>
           </div>
           <div className="nav-right">
-            <a href="/"></a>
+            <UserButton />
           </div>
         </header>
         {children}
