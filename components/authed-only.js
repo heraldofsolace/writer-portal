@@ -1,11 +1,11 @@
-import Cotter from "cotter";
+import Userfront from "@userfront/react";
 import {useEffect, useState} from "react";
-import * as dayjs from "dayjs";
-import * as localizedFormat from "dayjs/plugin/localizedFormat";
 
-dayjs.extend(localizedFormat);
+Userfront.init("wn9dg6b5");
 
-const cotterApiKeyId = process.env.NEXT_PUBLIC_COTTER_API_KEY_ID;
+const SignupForm = Userfront.build({
+  toolId: "nrdnom"
+});
 
 export default function AuthedOnly({children}) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
