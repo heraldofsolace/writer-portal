@@ -12,7 +12,6 @@ dayjs.extend(localizedFormat);
 
 export default function SingleAssignment({assignmentId}) {
     const [assignment, setAssignment] = useState(null);
-    const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null);
     
     const getAssignment = () => {
@@ -36,10 +35,10 @@ export default function SingleAssignment({assignmentId}) {
     };
 
     const belongsToCurrentUser = () => {
-        return currentUser && assignment.writer_email &&
+        return userData && assignment.writer_email &&
             assignment.writer_email.length > 0 &&
             assignment.writer_email[0] &&
-            assignment.writer_email[0] === currentUser.identifier
+            assignment.writer_email[0] === userData.email
     }
 
     const handleAccept = () => {
