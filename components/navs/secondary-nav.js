@@ -1,7 +1,6 @@
 
 export default function SecondaryNav({currentPage}) {
     return (
-
         <div className="pure-menu pure-menu-horizontal">
             <ul className="pure-menu-list">
                 <li className={currentPage === 'assignments' ? 'pure-menu-item pure-menu-selected' : 'pure-menu-item'}>
