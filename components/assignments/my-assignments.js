@@ -2,8 +2,10 @@ import {assignmentStatuses} from "../../constants/assignment-statuses";
 import {useState, useEffect} from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
+import * as utc from "dayjs/plugin/utc";
 
 dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 
 export default function MyAssignments() {
     const [assignments, setAssignments] = useState(null);
@@ -52,7 +54,7 @@ export default function MyAssignments() {
                         ${assignment.writer_payout}{" "}
                         {assignment.writer_paid_date ? (
                             <span
-                                title={'Payment initiated on ' + dayjs(assignment.writer_paid_date).format("LL")}>✅</span>
+                                title={'Payment initiated on ' + dayjs(assignment.writer_paid_date).utc().format("LL")}>✅</span>
                         ) : ('')}</td>
                 </tr>
             ))) : (assignments && assignments.length === 0) ? (

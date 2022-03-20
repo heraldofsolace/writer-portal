@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
+import * as utc from "dayjs/plugin/utc";
 import {truncate} from "lodash";
 import AcceptAssignment from "../../components/assignments/accept-assignment";
 import RequestAssignment from "../../components/assignments/request-assignment";
@@ -11,6 +12,7 @@ import dynamic from 'next/dynamic';
 const ReactMarkdown= dynamic(() => import('react-markdown'),{ ssr: false });
 
 dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 
 export default function SingleAssignment({assignmentId}) {
     const [assignment, setAssignment] = useState(null);
@@ -117,7 +119,7 @@ export default function SingleAssignment({assignmentId}) {
                   </>) : null}
               <tr>
                   <th>Due Date</th>
-                  <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
+                  <td>{dayjs(assignment.writer_due_date).utc().format("LL")}</td>
               </tr>
               <tr>
                   <th>Deliverables</th>
