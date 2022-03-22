@@ -2,8 +2,10 @@ import {assignmentStatuses} from "../../constants/assignment-statuses";
 import {useState, useEffect} from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
+import * as utc from "dayjs/plugin/utc";
 
 dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 
 export default function AvailableAssignments() {
     const [assignments, setAssignments] = useState(null);
@@ -40,7 +42,7 @@ export default function AvailableAssignments() {
                       <br/>
                       <small>{assignment.request_date ? (' ✔ Request Submitted️') : 'For ' + assignment.client_name}</small>
                   </td>
-                  <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
+                  <td>{dayjs(assignment.writer_due_date).utc().format("LL")}</td>
                   <td>{assignment.content_category_names}</td>
               </tr>
             ))) : (assignments && assignments.length === 0) ? (
