@@ -17,7 +17,7 @@ export default function AssignmentHeader({ assignment }) {
                 <a href={"/assignments/available"}>⬅ All Available Assignments</a>
                 <h1 style={{textAlign: 'center'}}>Request Assignment</h1>
                 <p>
-                    Click the link below to request this assignment and our editors will follow up soon (typically within 3 days).
+                  Click the link below to request this assignment. We will email you if you are assigned to this article.
                 </p>
             </div>
         ) : assignment.status === assignmentStatuses.writing ? (
