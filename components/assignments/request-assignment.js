@@ -18,7 +18,7 @@ export default function RequestAssignment({assignment, userData}) {
             .then((response) => {
                 if (response.ok) {
                     setMessage({
-                        body: "Success! Your request has been submitted. You should hear back within 3 days.",
+                        body: "Success! Your request has been submitted. If selected, you should hear back within 3 days.",
                         type: "success",
                     });
                     setDisabled(true);
