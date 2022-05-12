@@ -61,8 +61,8 @@ export default function MyAssignments() {
                 <tr><td colSpan="4">
                     No assignments found. Be sure to use the same email to log in that you used to apply for
                     Draft.dev.
-                    If you think you've encountered an error, <a href="mailto:karl@draft.dev">contact
-                    karl@draft.dev</a>.
+                    If you think you've encountered an error, <a href="mailto:editor@draft.dev">contact
+                    editor@draft.dev</a>.
                 </td></tr>
             ) : (
                 <tr><td colSpan="4">Loading...</td></tr>
