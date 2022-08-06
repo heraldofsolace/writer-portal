@@ -25,6 +25,15 @@ export default requireSession(async (req, res) => {
                                   assignments.writer_paid_date,
                                   assignments.writer_deliverables,
                                   assignments.writer,
+                                  assignments.audience,
+                                  assignments.target_keyword,
+                                  assignments.what_sets_the_company_apart,
+                                  assignments.call_to_action,
+                                  assignments.technical_level,
+                                  assignments.tools_to_be_used,
+                                  assignments.tools_to_be_excluded,
+                                  assignments.competitors,
+                                  assignments.mention_of_product,
                                   your_requests.request_date,
                                   your_requests.id as request_id
                            from assignments
