@@ -120,50 +120,50 @@ export default function SingleAssignment({assignmentId}) {
                           <th>Pay Rate</th>
                           <td>${assignment.writer_payout}</td>
                       </tr>
+                      <tr>  
+                        <th>Target keyword</th>
+                        <td>{assignment.target_keyword}</td>
+                      </tr>
+                      <tr>
+                        <th>What problem is {assignment.client_name} trying to solve? What sets them apart?</th>
+                        <td>{assignment.what_sets_the_company_apart}</td>
+                      </tr>
+                      <tr>  
+                        <th>Include a call to action?</th>
+                        <td>{assignment.call_to_action || "No"}</td>
+                      </tr>
+                      <tr>  
+                        <th>Expected technical level</th>
+                        <td>{assignment.technical_level}</td>
+                      </tr>
+                      <tr>  
+                        <th>Tools that should be used</th>
+                        <td>{assignment.tools_to_be_used}</td>
+                      </tr>
+                      <tr>  
+                        <th>Tools that should not be used</th>
+                        <td>{assignment.tools_to_be_excluded}</td>
+                      </tr>
+                      <tr>
+                        <th>Competitors of {assignment.client_name}</th>
+                        <td>{assignment.competitors}</td>
+                      </tr>
+                      <tr>  
+                        <th>How should the product(s) of {assignment.client_name} be mentioned?</th>
+                        <td>{assignment.mention_of_product}</td>
+                      </tr>
                   </>) : null}
               <tr>
                   <th>Due Date</th>
                   <td>{dayjs(assignment.writer_due_date).utc().format("LL")}</td>
               </tr>
-                <tr>
-                  <th>Deliverables</th>
-                  <td>{assignment.writer_deliverables.join(", ")}</td>
+              <tr>
+                <th>Deliverables</th>
+                <td>{assignment.writer_deliverables.join(", ")}</td>
               </tr>
               <tr>  
                 <th>Audience</th>
                 <td>{assignment.audience}</td>
-              </tr>
-                <tr>  
-                <th>Target keyword</th>
-                <td>{assignment.target_keyword}</td>
-              </tr>
-                <tr>  
-                <th>What problem is {assignment.client_name} trying to solve? What sets them apart?</th>
-                <td>{assignment.what_sets_the_company_apart}</td>
-              </tr>
-                <tr>  
-                <th>Include a call to action?</th>
-                <td>{assignment.call_to_action || "No"}</td>
-              </tr>
-                <tr>  
-                <th>Expected technical level</th>
-                <td>{assignment.technical_level}</td>
-              </tr>
-                <tr>  
-                <th>Tools that should be used</th>
-                <td>{assignment.tools_to_be_used}</td>
-              </tr>
-                <tr>  
-                <th>Tools that should not be used</th>
-                <td>{assignment.tools_to_be_excluded}</td>
-              </tr>
-                <tr>  
-                <th>Competitors of {assignment.client_name}</th>
-                <td>{assignment.competitors}</td>
-              </tr>
-                <tr>  
-                <th>How should the product(s) of {assignment.client_name} be mentioned?</th>
-                <td>{assignment.mention_of_product}</td>
               </tr>
               </tbody>
           </table>
