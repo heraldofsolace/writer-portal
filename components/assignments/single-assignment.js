@@ -133,10 +133,6 @@ export default function SingleAssignment({assignmentId}) {
                         <td>{assignment.call_to_action || "No"}</td>
                       </tr>
                       <tr>  
-                        <th>Expected technical level</th>
-                        <td>{assignment.technical_level}</td>
-                      </tr>
-                      <tr>  
                         <th>Tools that should be used</th>
                         <td>{assignment.tools_to_be_used}</td>
                       </tr>
@@ -164,6 +160,10 @@ export default function SingleAssignment({assignmentId}) {
               <tr>  
                 <th>Audience</th>
                 <td>{assignment.audience}</td>
+              </tr>
+              <tr>  
+                <th>Expected technical level</th>
+                <td>{assignment.technical_level}</td>
               </tr>
               </tbody>
           </table>
