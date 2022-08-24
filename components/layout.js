@@ -29,7 +29,7 @@ export default class Layout extends Component {
         </header>
         {children}
         <footer>
-          <p>For general inquiries or technical support, email <a href="mailto:editor@draft.dev">editor@draft.dev</a></p>
+          <p>For general inquiries or technical support, check out our <a href="https://www.notion.so/draftdev/Writer-FAQ-e52b75bd31b44fc0b21c884083c9ed15">Writer FAQ</a> or email <a href="mailto:editor@draft.dev">editor@draft.dev</a></p>
         </footer>
       </div>
     );
