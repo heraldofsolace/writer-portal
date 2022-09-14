@@ -25,6 +25,7 @@ export default requireSession(async (req, res) => {
                             join writers on writers.id = ANY (assignments.writer)
                      where writers.email like $1
                      and assignments.writer_due_date is not null
+                     and assignments.status = 'Writing'
                      order by assignments.writer_due_date desc;`;
       const { rows } = await pool.query(query, [
         user.emailAddresses[0].emailAddress,

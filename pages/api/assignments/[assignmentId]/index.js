@@ -1,17 +1,17 @@
-const {Pool} = require("pg");
+const { Pool } = require("pg");
 const connectionString = process.env.PG_CONNECTION_STRING;
-const pool = new Pool({connectionString});
+const pool = new Pool({ connectionString });
 import { requireSession, users } from "@clerk/nextjs/api";
 
 export default requireSession(async (req, res) => {
-    try {
-        const {assignmentId} = req.query;
-        // Get user from Clerk API
-        const user = await users.getUser(req.session.userId);
+  try {
+    const { assignmentId } = req.query;
+    // Get user from Clerk API
+    const user = await users.getUser(req.session.userId);
 
-        if (req.method === "GET") {
-            // Get assignment by assignmentId
-            const query = `select assignments.title,
+    if (req.method === "GET") {
+      // Get assignment by assignmentId
+      const query = `select assignments.title,
                                   assignments.id,
                                   assignments.client_name,
                                   assignments.status,
@@ -42,16 +42,19 @@ export default requireSession(async (req, res) => {
                                where $2 = ANY (writer_email)
                            ) as your_requests on your_requests.id = ANY (assignments.requests)
                            where assignments.id like $1;`;
-            const {rows} = await pool.query(query, [assignmentId, user.emailAddresses[0].emailAddress]);
+      const { rows } = await pool.query(query, [
+        assignmentId,
+        user.emailAddresses[0].emailAddress,
+      ]);
 
-            // Respond with results
-            res.statusCode = 200;
-            res.json(rows[0]);
-        }
-    } catch (e) {
-        // Handle any errors
-        console.log(e);
-        res.statusCode = 500;
-        res.end("Server error. Something went wrong.");
+      // Respond with results
+      res.statusCode = 200;
+      res.json(rows[0]);
     }
+  } catch (e) {
+    // Handle any errors
+    console.log(e);
+    res.statusCode = 500;
+    res.json({ error: "Server error. Something went wrong." });
+  }
 });

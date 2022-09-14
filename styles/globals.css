@@ -1,111 +1,51 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: Roboto, sans-serif;
-  color: #5e5e5e;
-  background-color: #f5f4f0;
-}
+@tailwind base;
 
-a {
-  color: #3b3e4f;
-  text-decoration: underline;
-}
+@layer base {
+  html,
+  body {
+    @apply text-words bg-body box-border overflow-x-hidden;
+  }
 
-* {
-  box-sizing: border-box;
-}
+  a {
+    @apply text-primary;
+  }
 
-header {
-  font-family: Assistant, sans-serif;
-  padding: 1rem;
-  background-color: #3b3e4f;
-  color: #ffffff;
-  clear-after: both;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-}
+  header {
+    @apply font-header p-4 bg-primary text-white flex flex-row flex-wrap w-full;
+  }
 
-header a {
-  color: #ffffff;
-  text-decoration: none;
-}
+  main {
+    @apply bg-white;
+  }
 
-header .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
-}
+  h1,
+  h2,
+  h3 {
+    @apply font-header font-bold;
+  }
 
-header .logo .site-name {
-  font-size: 1rem;
-  font-weight: normal;
-}
+  .button {
+    @apply text-white rounded-sm;
+  }
 
-header .navbar-right {
-  line-height: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
-  text-align: right;
-}
+  .button-success {
+    @apply bg-success;
+  }
 
-main {
-  background-color: #ffffff;
-  padding: 1rem 2rem;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 50%;
-}
+  .button-error {
+    @apply bg-error;
+  }
 
-h1,
-h2,
-h3 {
-  font-family: Assistant, sans-serif;
-  font-weight: bold;
-}
+  .button-warning {
+    @apply bg-warning;
+  }
 
-.button-success,
-.button-error,
-.button-warning,
-.button-secondary {
-  color: white;
-  border-radius: 4px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  .button-secondary {
+    @apply bg-secondary;
+  }
 }
-
-.button-success {
-  background: #778780;
-}
-
-.button-error {
-  background: rgb(129, 71, 71);
-}
-
-.button-warning {
-  background: rgb(160, 110, 65);
-}
-
-.button-secondary {
-  background: #b3aa8d;
-}
-
-.assignment-actions {
-  margin-top: 1rem;
-}
-
-table td, table td * {
-  vertical-align: top;
-}
-table.pure-table {
-  width: 100%;
-}
+@tailwind components;
+@tailwind utilities;
 
 p.error {
   color: #8d5d5d;
@@ -119,16 +59,6 @@ p.success {
   background-color: #eee;
 }
 
-footer {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 768px;
-}
-footer p, .small {
-  font-size: .8rem;
-}
-
 .cl-component {
   --clerk-box-shadow: none;
 }
@@ -139,4 +69,16 @@ footer p, .small {
 
 .cl-component .cl-auth-form-header {
   display: none !important;
+}
+
+.badge-request-Pending {
+  @apply badge-ghost;
+}
+
+.badge-request-Accepted {
+  @apply badge-success;
+}
+
+.badge-request-Rejected {
+  @apply badge-error;
 }

@@ -21,7 +21,8 @@ export default requireSession(async (req, res) => {
                             assignments.content_categories,
                             assignments.content_types_names ,
                             string_agg(content_categories.name, ', ') as content_category_names,
-                            your_requests.request_date
+                            your_requests.request_date,
+                            your_requests.request_status
                      from assignments
                             left join content_categories on content_categories.id = ANY (assignments.content_categories)
                             left join (
@@ -32,9 +33,13 @@ export default requireSession(async (req, res) => {
                      and lower(assignments.content_types_names) not like $3
                      and assignments.writer_due_date < current_date + interval '45' day
                      and assignments.writer = '{}'
-                     group by assignments.id, your_requests.request_date
+                     group by assignments.id, your_requests.request_date, your_requests.request_status
                      order by assignments.writer_due_date asc;`;
-      const { rows } = await pool.query(query, ['Assigning', user.emailAddresses[0].emailAddress, 'content transformation']);
+      const { rows } = await pool.query(query, [
+        "Assigning",
+        user.emailAddresses[0].emailAddress,
+        "content transformation",
+      ]);
 
       // Respond with results
       res.statusCode = 200;

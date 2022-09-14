@@ -16,20 +16,20 @@ const getWriterIdFromEmail = async (email) => {
                      and writers.status like 'Accepted';`;
   const { rows } = await pool.query(query, [email]);
   return rows[0].id;
-}
+};
 
 const createRequest = (assignmentId, writerId) => {
   return base(tableName).create([
     {
-      "fields": {
-        "Assignment": [assignmentId],
-        "Writer": [writerId]
-      }
+      fields: {
+        Assignment: [assignmentId],
+        Writer: [writerId],
+      },
     },
   ]);
-}
+};
 
-export default async (req, res) => {
+const makeRequest = async (req, res) => {
   const { assignmentId } = req.query;
   const { email } = JSON.parse(req.body);
 
@@ -46,3 +46,5 @@ export default async (req, res) => {
     res.end("Server error. Something went wrong.");
   }
 };
+
+export default makeRequest;

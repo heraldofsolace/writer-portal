@@ -1,6 +1,6 @@
-import {submit} from "../../../../functions/assignments";
+import { submit } from "../../../../functions/assignments";
 
-export default async (req, res) => {
+const submitAssignment = async (req, res) => {
   const { assignmentId } = req.query;
 
   try {
@@ -16,3 +16,5 @@ export default async (req, res) => {
     res.end("Server error. Something went wrong.");
   }
 };
+
+export default submitAssignment;
