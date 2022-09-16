@@ -94,7 +94,7 @@ export default function RequestAssignment({
       !assignment.outreach_id ? (
         <form className="mt-4" onSubmit={request}>
           <button
-            className="btn btn-success text-white"
+            className="btn btn-success text-white m-2"
             type="submit"
             disabled={
               disabled ||
@@ -110,7 +110,7 @@ export default function RequestAssignment({
           </button>
           {assignment.request_id ? (
             <a
-              className="btn btn-error text-white mx-4"
+              className="btn btn-error text-white m-2"
               href="#"
               onClick={unrequest}
               disabled={cancelDisabled}
