@@ -1,13 +1,14 @@
-import Assignments from "../components/assignments/assignments";
+import Requests from "../../components/requests/requests";
+import { useRouter } from "next/router";
 import { withServerSideAuth } from "@clerk/nextjs/ssr";
 import { users } from "@clerk/nextjs/api";
-import { getAssignments } from "../functions/assignments";
+import { getRequests } from "../../functions/requests";
 import { SWRConfig } from "swr";
 
-export default function Home({ fallback, type }) {
+export default function RequestsPage({ fallback, type }) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Assignments type="current" />
+      <Requests type={type} />
     </SWRConfig>
   );
 }
@@ -19,22 +20,19 @@ export const getServerSideProps = withServerSideAuth(async ({ req, query }) => {
     return {
       props: {
         fallback: {
-          [`/api/assignments?type=${type}`]: null,
+          [`/api/requests?type=${type}`]: null,
         },
         type,
       },
     };
   }
   const user = await users.getUser(userId);
-  const assignments = await getAssignments(
-    type,
-    user.emailAddresses[0].emailAddress
-  );
+  const requests = await getRequests(type, user.emailAddresses[0].emailAddress);
 
   return {
     props: {
       fallback: {
-        [`/api/assignments?type=${type}`]: assignments.data,
+        [`/api/requests?type=${type}`]: requests.data,
       },
       type,
     },

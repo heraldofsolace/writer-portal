@@ -14,4 +14,13 @@ module.exports = withTM({
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/assignments?type=current",
+        permanent: true,
+      },
+    ];
+  },
 });

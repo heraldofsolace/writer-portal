@@ -1,34 +1,34 @@
 import { assignmentStatuses } from "../../constants/assignment-statuses";
 import { useEffect, useState } from "react";
-export default function RequestAssignment({
+export default function AssignmentOutreach({
   assignment,
   userData,
-  handleRequest,
-  handleUnRequest,
+  handleAccept,
+  handleReject,
 }) {
   const [disabled, setDisabled] = useState(false);
-  const [cancelDisabled, setCancelDisabled] = useState(false);
+  const [rejectDisabled, setRejectDisabled] = useState(false);
   const [message, setMessage] = useState(false);
 
   // Allow writers to request an assignment
-  const request = async (e) => {
+  const accept = async (e) => {
     e.preventDefault();
     setDisabled(true);
     setMessage(false);
-    fetch("/api/assignments/" + assignment.id + "/request", {
+    fetch("/api/outreaches/" + assignment.outreach_id + "/accept", {
       method: "POST",
       body: JSON.stringify({ email: userData.email }),
     })
       .then((response) => {
         if (response.ok) {
           setMessage({
-            body: "Success! Your request has been submitted. If selected, you should hear back within 3 days.",
+            body: "Success! You should receive a confirmation email shortly.",
             type: "success",
           });
           setDisabled(true);
-          setCancelDisabled(false);
-          response.json().then(({ requestId }) => {
-            handleRequest(requestId);
+          setRejectDisabled(true);
+          response.json().then(({ outreachId }) => {
+            handleAccept(outreachId);
           });
         } else {
           throw new Error("Invalid response from backend");
@@ -36,7 +36,7 @@ export default function RequestAssignment({
       })
       .catch((error) => {
         setMessage({
-          body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually request this assignment.",
+          body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually accept this assignment.",
           type: "error",
         });
         console.error(error);
@@ -45,19 +45,23 @@ export default function RequestAssignment({
   };
 
   // Allow writers to unrequest an assignment
-  const unrequest = async (e) => {
+  const reject = async (e) => {
     e.preventDefault();
-    setCancelDisabled(true);
+    setRejectDisabled(true);
     setMessage(false);
-    fetch("/api/requests/" + assignment.request_id, { method: "DELETE" })
+    fetch("/api/outreaches/" + assignment.outreach_id + "/reject", {
+      method: "POST",
+      body: JSON.stringify({ email: userData.email }),
+    })
       .then((response) => {
         if (response.ok) {
           setMessage({
-            body: "Success! Your request has been canceled.",
+            body: "Success! You have rejected this article.",
             type: "success",
           });
-          setCancelDisabled(true);
-          handleUnRequest();
+          setRejectDisabled(true);
+          setDisabled(true);
+          handleReject();
         } else {
           throw new Error("Invalid response from backend");
         }
@@ -68,56 +72,44 @@ export default function RequestAssignment({
           type: "error",
         });
         console.error(error);
-        setCancelDisabled(false);
+        setRejectDisabled(false);
       });
   };
 
-  useEffect(() => {
-    if (
-      !assignment.request_id &&
-      userData &&
-      userData.writer_at_max_requests &&
-      userData.writer_at_max_requests[0] === "1"
-    ) {
-      setMessage({
-        body: "It looks like you've hit your request limit. New writers are typically limited to 5 open requests, but you can reach out to us if you'd like to have this limit lifted.",
-        type: "error",
-      });
-    }
-  }, [userData, assignment]);
   console.log(assignment.request_id);
 
   return (
     <div className="assignment-actions">
       {assignment.status === assignmentStatuses.assigning &&
       assignment.writer_email.length === 0 &&
-      !assignment.outreach_id ? (
-        <form className="mt-4" onSubmit={request}>
+      assignment.outreach_id &&
+      !assignment.outreach_status &&
+      assignment.expired === "No" ? (
+        <form className="mt-4" onSubmit={accept}>
           <button
             className="btn btn-success text-white"
             type="submit"
             disabled={
               disabled ||
-              assignment.request_id ||
-              !userData ||
-              (userData.writer_at_max_requests &&
-                userData.writer_at_max_requests[0] === "1")
+              assignment.expired === "Yes" ||
+              assignment.outreach_status
             }
           >
-            {assignment.request_id
-              ? " ✔ Request Submitted"
-              : "Request Assignment"}
+            Accept
           </button>
-          {assignment.request_id ? (
-            <a
-              className="btn btn-error text-white mx-4"
-              href="#"
-              onClick={unrequest}
-              disabled={cancelDisabled}
-            >
-              Cancel Request
-            </a>
-          ) : null}
+          <a
+            className="btn btn-error text-white mx-4"
+            href="#"
+            onClick={reject}
+            disabled={
+              rejectDisabled ||
+              assignment.expired === "Yes" ||
+              assignment.outreach_status
+            }
+          >
+            Reject
+          </a>
+
           {message ? (
             <div
               className={`alert alert-${message.type} shadow-lg text-white my-4`}
@@ -130,6 +122,11 @@ export default function RequestAssignment({
       ) : (
         ""
       )}
+      {assignment.outreach_id && assignment.outreach_status === "Rejected" ? (
+        <div className={`alert alert-info shadow-lg text-white my-4`}>
+          <div>You have rejected this article</div>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -13,13 +13,13 @@ const routes = [
     name: "Assignments",
     routes: [
       {
-        path: "/",
+        path: "/assignments?type=current",
         name: "Current Assignments",
         icon: BiPen,
         badge: CurrentAssignmentsCount,
       },
       {
-        path: "/assignments/all",
+        path: "/assignments?type=all",
         name: "All Assignments",
         icon: BiNotepad,
       },
@@ -34,18 +34,18 @@ const routes = [
         icon: BiNotepad,
       },
       {
-        path: "/requests/pending",
+        path: "/requests?type=pending",
         name: "Pending requests",
         icon: BiMessageAltAdd,
         badge: PendingRequestsCount,
       },
       {
-        path: "/requests/past",
+        path: "/requests?type=past",
         name: "Past requests",
         icon: BiMessageAltCheck,
       },
       {
-        path: "/requests",
+        path: "/requests?type=all",
         name: "All requests",
         icon: BiMessageAltDetail,
       },
@@ -55,18 +55,18 @@ const routes = [
     name: "Outreaches",
     routes: [
       {
-        path: "/outreaches/pending",
+        path: "/outreaches?type=pending",
         name: "Pending outreaches",
         icon: BiMessageAltAdd,
         badge: PendingOutreachesCount,
       },
       {
-        path: "/outreaches/past",
+        path: "/outreaches?type=past",
         name: "Past outreaches",
         icon: BiMessageAltCheck,
       },
       {
-        path: "/outreaches",
+        path: "/outreaches?type=all",
         name: "All outreaches",
         icon: BiMessageAltDetail,
       },

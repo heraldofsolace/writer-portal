@@ -49,7 +49,32 @@ export default function Assignments({ type }) {
   }
   let serial = 1;
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto p-2">
+      {assignments.find((assignment) => {
+        return assignment.status === assignmentStatuses.assigning;
+      }) ? (
+        <div className="alert alert-warning shadow-lg text-white my-4">
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current flex-shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            You have one or more assignments that have not been confirmed yet.
+            Please click on the article to accept the assignments.
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       <table className="table w-full">
         <thead>
           <tr>
@@ -87,7 +112,13 @@ export default function Assignments({ type }) {
                     Published
                   </a>
                 ) : (
-                  <span className="badge badge-primary badge-lg text-sm">
+                  <span
+                    className={`badge ${
+                      assignment.status === assignmentStatuses.assigning
+                        ? "badge-info"
+                        : "badge-primary"
+                    } badge-lg text-sm`}
+                  >
                     {assignment.status}
                   </span>
                 )}

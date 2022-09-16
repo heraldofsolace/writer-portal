@@ -1,13 +1,21 @@
-import Assignments from "../components/assignments/assignments";
+import { useEffect, useState } from "react";
+import * as dayjs from "dayjs";
+import * as localizedFormat from "dayjs/plugin/localizedFormat";
+import SecondaryNav from "../../components/navs/secondary-nav";
+import AuthedOnly from "../../components/authed-only";
+import AvailableAssignments from "../../components/assignments/available-assignments";
+import Assignments from "../../components/assignments/assignments";
+import { SWRConfig } from "swr";
 import { withServerSideAuth } from "@clerk/nextjs/ssr";
 import { users } from "@clerk/nextjs/api";
-import { getAssignments } from "../functions/assignments";
-import { SWRConfig } from "swr";
+import { getAssignments } from "../../functions/assignments";
 
-export default function Home({ fallback, type }) {
+dayjs.extend(localizedFormat);
+
+export default function AssignmentsPage({ fallback, type }) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Assignments type="current" />
+      <Assignments type={type} />
     </SWRConfig>
   );
 }

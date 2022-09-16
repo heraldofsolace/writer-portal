@@ -12,16 +12,18 @@ import { useWriter } from "../../data/use-writer";
 import { useSingleAssignment } from "../../data/use-assignments";
 import { Error } from "../error";
 import dynamic from "next/dynamic";
+import AssignmentOutreach from "./assignment-outreach";
 const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
 
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 
-export default function SingleAssignment({ assignmentId }) {
+export default function SingleAssignment({ assignmentId, emailId }) {
   const {
     writer,
     isLoading: writerIsLoading,
     isError: writerIsError,
+    mutate: mutateWriter,
   } = useWriter("me");
   const {
     assignment,
@@ -92,15 +94,86 @@ export default function SingleAssignment({ assignmentId }) {
 
   const handleAccept = () => {
     mutateAssignment({ ...assignment, status: assignmentStatuses.writing });
+    mutateWriter({
+      ...writer,
+      current_assignments_count: (
+        Number(writer.current_assignments_count) + 1
+      ).toString(),
+    });
   };
 
   const handleSubmit = () => {
     mutateAssignment({ ...assignment, status: assignmentStatuses.tech_review });
+    mutateWriter({
+      ...writer,
+      current_assignments_count: (
+        Number(writer.current_assignments_count) - 1
+      ).toString(),
+    });
   };
 
+  const handleRequest = (requestId) => {
+    // Not revalidating because Sequin's sync delays. We're not returning all the requests
+    // in the SQL, so it becomes difficult to update the assignment record via Sequin proxy
+    // We simply assume things went well.
+    mutateAssignment(
+      { ...assignment, request_id: requestId },
+      { revalidate: false }
+    );
+    mutateWriter(
+      {
+        ...writer,
+        pending_requests_count: (
+          Number(writer.pending_requests_count) + 1
+        ).toString(),
+      },
+      { revalidate: false }
+    );
+  };
+
+  const handleUnRequest = () => {
+    // Not revalidating because Sequin's sync delays. We're not returning all the requests
+    // in the SQL, so it becomes difficult to update the assignment record via Sequin proxy
+    // We simply assume things went well.
+    mutateAssignment(
+      { ...assignment, request_id: null },
+      { revalidate: false }
+    );
+    mutateWriter(
+      {
+        ...writer,
+        pending_requests_count: (
+          Number(writer.pending_requests_count) - 1
+        ).toString(),
+      },
+      { revalidate: false }
+    );
+  };
+
+  const handleOutreachAccept = (outreachId) => {
+    // Here we can allow revalidation because the calculations are done in SQL
+    mutateAssignment({ ...assignment, outreach_status: "Accepted" });
+    mutateWriter({
+      ...writer,
+      pending_outreaches_count: (
+        Number(writer.pending_outreaches_count) - 1
+      ).toString(),
+    });
+  };
+
+  const handleOutreachReject = () => {
+    // Here we can allow revalidation because the calculations are done in SQL
+    mutateAssignment({ ...assignment, outreach_status: "Rejected" });
+    mutateWriter({
+      ...writer,
+      pending_outreaches_count: (
+        Number(writer.pending_outreaches_count) - 1
+      ).toString(),
+    });
+  };
   return (
-    <div className="p-4">
-      <AssignmentHeader assignment={assignment} />
+    <div className="p-4 relative">
+      <AssignmentHeader assignment={assignment} writerEmail={writer.email} />
       <div className="overflow-x-auto p-2 mt-4">
         <h1 className="text-3xl">{assignment.title}</h1>
         <h3 className="uppercase bg-gray-100 text-gray-400 my-4 font-light">
@@ -115,7 +188,7 @@ export default function SingleAssignment({ assignmentId }) {
           Outline
         </h3>
         <div className="prose">
-          <ReactMarkdown>{children}</ReactMarkdown>
+          <ReactMarkdown>{assignment.outline}</ReactMarkdown>
         </div>
         {assignment.published_url ? (
           <>
@@ -130,7 +203,16 @@ export default function SingleAssignment({ assignmentId }) {
             <h3 className="uppercase bg-gray-100 text-gray-400 my-4 font-light">
               Brief URL
             </h3>
-            <p>{assignment.brief_url}</p>
+            <p>
+              <a
+                className="link"
+                target="_blank"
+                rel="noreferrer"
+                href={assignment.brief_url}
+              >
+                {truncate(assignment.brief_url, { length: 55 })}
+              </a>
+            </p>
             <h3 className="uppercase bg-gray-100 text-gray-400 my-4 font-light">
               Status
             </h3>
@@ -191,7 +273,20 @@ export default function SingleAssignment({ assignmentId }) {
           Expected technical level
         </h3>
         <p>{assignment.technical_level}</p>
-        <RequestAssignment assignment={assignment} userData={writer} />
+        <AssignmentOutreach
+          assignment={assignment}
+          userData={writer}
+          handleAccept={handleOutreachAccept}
+          handleReject={handleOutreachReject}
+        />
+
+        <RequestAssignment
+          assignment={assignment}
+          userData={writer}
+          handleRequest={handleRequest}
+          handleUnRequest={handleUnRequest}
+        />
+
         {belongsToCurrentUser() ? (
           <div className="mt-8">
             <AcceptAssignment

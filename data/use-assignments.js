@@ -1,15 +1,9 @@
-import useSWR from "swr";
-import fetcher from "./api-fetcher";
+import useClerkSWR from "./use-clerk-swr";
 
 export function useAssignments(type) {
-  let url;
-  if (type === "all") {
-    url = "/api/assignments";
-  } else {
-    url = "/api/assignments/current";
-  }
+  let url = `/api/assignments/?type=${type}`;
 
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useClerkSWR(url);
 
   return {
     assignments: data,
@@ -19,7 +13,7 @@ export function useAssignments(type) {
 }
 
 export function useAvailableAssignments() {
-  const { data, error, mutate } = useSWR("/api/assignments/available", fetcher);
+  const { data, error, mutate } = useClerkSWR("/api/assignments/available");
 
   return {
     assignments: data,
@@ -30,9 +24,7 @@ export function useAvailableAssignments() {
 }
 
 export function useSingleAssignment(id) {
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
-  const { data, error, mutate } = useSWR(`/api/assignments/${id}`, fetcher);
+  const { data, error, mutate } = useClerkSWR(`/api/assignments/${id}`);
 
   return {
     assignment: data,

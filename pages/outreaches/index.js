@@ -1,13 +1,15 @@
-import Assignments from "../components/assignments/assignments";
+import Requests from "../../components/requests/requests";
+import { useRouter } from "next/router";
 import { withServerSideAuth } from "@clerk/nextjs/ssr";
 import { users } from "@clerk/nextjs/api";
-import { getAssignments } from "../functions/assignments";
 import { SWRConfig } from "swr";
+import Outreaches from "../../components/outreaches/outreaches";
+import { getOutreaches } from "../../functions/outreaches";
 
-export default function Home({ fallback, type }) {
+export default function OutreachesPage({ fallback, type }) {
   return (
     <SWRConfig value={{ fallback }}>
-      <Assignments type="current" />
+      <Outreaches type={type} />
     </SWRConfig>
   );
 }
@@ -19,14 +21,14 @@ export const getServerSideProps = withServerSideAuth(async ({ req, query }) => {
     return {
       props: {
         fallback: {
-          [`/api/assignments?type=${type}`]: null,
+          [`/api/outreaches?type=${type}`]: null,
         },
         type,
       },
     };
   }
   const user = await users.getUser(userId);
-  const assignments = await getAssignments(
+  const outreaches = await getOutreaches(
     type,
     user.emailAddresses[0].emailAddress
   );
@@ -34,7 +36,7 @@ export const getServerSideProps = withServerSideAuth(async ({ req, query }) => {
   return {
     props: {
       fallback: {
-        [`/api/assignments?type=${type}`]: assignments.data,
+        [`/api/outreaches?type=${type}`]: outreaches.data,
       },
       type,
     },

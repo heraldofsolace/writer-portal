@@ -42,7 +42,7 @@ export default function SubmitAssignment({ assignment, handleSubmit }) {
         ""
       )}
       <input type="checkbox" id="submit-modal" className="modal-toggle" />
-      <div className="modal modal-bottom sm:modal-middle">
+      <div className="modal modal-bottom sm:modal-middle lg:left-80">
         <div className="modal-box">
           <h3 className="font-bold text-lg">
             Are you sure you want to submit?
