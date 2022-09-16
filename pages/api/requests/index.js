@@ -1,5 +1,6 @@
 import { requireAuth, users } from "@clerk/nextjs/api";
 import { getRequests } from "../../../functions/requests";
+
 export default requireAuth(async (req, res) => {
   const { type } = req.query;
   if (!["all", "past", "pending"].includes(type)) {

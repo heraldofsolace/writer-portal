@@ -3,8 +3,6 @@ import "../styles/globals.css";
 import Layout from "../components/layout";
 import LogRocket from "logrocket";
 import { ClerkProvider } from "@clerk/nextjs";
-import { HiMenu } from "react-icons/hi";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import AuthedOnly from "../components/authed-only";

@@ -1,4 +1,3 @@
-import { requireSession, users } from "@clerk/nextjs/api";
 import { assignmentStatuses } from "../constants/assignment-statuses";
 
 const { Pool } = require("pg");

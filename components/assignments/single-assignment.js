@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
 import * as utc from "dayjs/plugin/utc";
@@ -13,6 +12,7 @@ import { useSingleAssignment } from "../../data/use-assignments";
 import { Error } from "../error";
 import dynamic from "next/dynamic";
 import AssignmentOutreach from "./assignment-outreach";
+
 const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
 
 dayjs.extend(localizedFormat);

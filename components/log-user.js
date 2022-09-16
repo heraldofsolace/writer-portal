@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import LogRocket from "logrocket";
 import { useUser } from "@clerk/nextjs";
 

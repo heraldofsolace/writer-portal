@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import useClerkSWR from "./use-clerk-swr";
 
 export function useOutreaches(type) {

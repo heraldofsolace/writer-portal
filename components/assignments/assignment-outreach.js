@@ -1,5 +1,6 @@
 import { assignmentStatuses } from "../../constants/assignment-statuses";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 export default function AssignmentOutreach({
   assignment,
   userData,

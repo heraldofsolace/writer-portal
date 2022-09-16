@@ -1,6 +1,5 @@
 import Airtable from "airtable";
-import { users } from "@clerk/nextjs/api";
-import outreachId from "../pages/api/outreaches/[outreachId]";
+
 const tableName = "Outreach";
 const { Pool } = require("pg");
 const connectionString = process.env.PG_CONNECTION_STRING;

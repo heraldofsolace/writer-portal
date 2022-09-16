@@ -1,4 +1,3 @@
-import { accept, getSingleOutreach } from "../../../../functions/outreaches";
 import { requireAuth, users } from "@clerk/nextjs/api";
 import { createRequest } from "../../../../functions/requests";
 import { getSingleAssignment } from "../../../../functions/assignments";

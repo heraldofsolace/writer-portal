@@ -1,5 +1,6 @@
 import { requireAuth, users } from "@clerk/nextjs/api";
 import { getOutreaches } from "../../../functions/outreaches";
+
 export default requireAuth(async (req, res) => {
   const { type } = req.query;
 

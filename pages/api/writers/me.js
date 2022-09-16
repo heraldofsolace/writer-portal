@@ -1,5 +1,4 @@
 import { requireAuth, users } from "@clerk/nextjs/api";
-import { getRequests } from "../../../functions/requests";
 import { getCurrentWriter } from "../../../functions/writers";
 
 export default requireAuth(async (req, res) => {

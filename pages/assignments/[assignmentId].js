@@ -1,6 +1,4 @@
-import { useRouter } from "next/router";
 import SingleAssignment from "../../components/assignments/single-assignment";
-import AuthedOnly from "../../components/authed-only";
 import { withServerSideAuth } from "@clerk/nextjs/ssr";
 import { users } from "@clerk/nextjs/api";
 import { getSingleAssignment } from "../../functions/assignments";

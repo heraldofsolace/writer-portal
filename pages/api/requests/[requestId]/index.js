@@ -1,7 +1,7 @@
 import { requireAuth, users } from "@clerk/nextjs/api";
 import {
-  getSingleRequest,
   deleteRequest,
+  getSingleRequest,
 } from "../../../../functions/requests";
 
 export default requireAuth(async (req, res) => {

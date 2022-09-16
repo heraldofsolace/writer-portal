@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useWriter } from "../../data/use-writer";
 
 export default function PendingRequestsCount() {

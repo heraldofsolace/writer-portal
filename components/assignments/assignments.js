@@ -1,11 +1,11 @@
 import { assignmentStatuses } from "../../constants/assignment-statuses";
-import { useState, useEffect } from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
 import * as utc from "dayjs/plugin/utc";
 import { useAssignments } from "../../data/use-assignments";
 import { Error } from "../error";
 import Link from "next/link";
+
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 

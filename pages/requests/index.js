@@ -1,5 +1,4 @@
 import Requests from "../../components/requests/requests";
-import { useRouter } from "next/router";
 import { withServerSideAuth } from "@clerk/nextjs/ssr";
 import { users } from "@clerk/nextjs/api";
 import { getRequests } from "../../functions/requests";

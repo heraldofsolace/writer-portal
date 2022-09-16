@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { SignedIn, SignedOut, SignIn, useUser } from "@clerk/nextjs";
-import SignoutLink from "./navs/signout-link";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import SigninForm from "./navs/signin-form";
 import LogUser from "./log-user";
 

@@ -1,5 +1,6 @@
 import Airtable from "airtable";
 import { assignmentStatuses } from "../constants/assignment-statuses";
+
 const tableName = "Assignments";
 const { Pool } = require("pg");
 const connectionString = process.env.PG_CONNECTION_STRING;

@@ -1,13 +1,10 @@
-import {
-  getOutreaches,
-  getSingleOutreach,
-} from "../../../../functions/outreaches";
+import { getSingleOutreach } from "../../../../functions/outreaches";
+import { requireAuth, users } from "@clerk/nextjs/api";
+import Airtable from "airtable";
 
 const { Pool } = require("pg");
 const connectionString = process.env.PG_CONNECTION_STRING;
 const pool = new Pool({ connectionString });
-import { requireAuth, requireSession, users } from "@clerk/nextjs/api";
-import Airtable from "airtable";
 const tableName = "Outreaches";
 
 const base = new Airtable({

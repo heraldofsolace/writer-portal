@@ -1,13 +1,14 @@
 import {
-  BiPen,
-  BiNotepad,
   BiMessageAltAdd,
   BiMessageAltCheck,
   BiMessageAltDetail,
+  BiNotepad,
+  BiPen,
 } from "react-icons/bi";
 import PendingRequestsCount from "../components/badges/pending_requests_count";
 import PendingOutreachesCount from "../components/badges/pending_outreaches_count";
 import CurrentAssignmentsCount from "../components/badges/current_assignments_count";
+
 const routes = [
   {
     name: "Assignments",
