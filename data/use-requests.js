@@ -5,7 +5,7 @@ export function useRequests(type) {
   let url = `/api/requests?type=${type}`;
 
   const { data, error } = useClerkSWR(url);
-  console.log(data, error);
+
   return {
     requests: data,
     isLoading: !error && !data,

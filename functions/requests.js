@@ -21,18 +21,6 @@ const createRequest = async (assignmentId, writerId) => {
         },
       },
     ]);
-
-    const writer = await getWriter(writerId);
-
-    const writerResult = await base("Writers").update([
-      {
-        id: writerId,
-        fields: {
-          Requests: [...writer.data.requests, result[0].id],
-        },
-      },
-    ]);
-
     return { data: result, error: null };
   } catch (e) {
     console.error(e);

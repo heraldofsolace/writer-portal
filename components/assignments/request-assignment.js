@@ -8,68 +8,67 @@ export default function RequestAssignment({
 }) {
   const [disabled, setDisabled] = useState(false);
   const [cancelDisabled, setCancelDisabled] = useState(false);
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState(null);
 
   // Allow writers to request an assignment
   const request = async (e) => {
     e.preventDefault();
     setDisabled(true);
-    setMessage(false);
-    fetch("/api/assignments/" + assignment.id + "/request", {
-      method: "POST",
-      body: JSON.stringify({ email: userData.email }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          setMessage({
-            body: "Success! Your request has been submitted. If selected, you should hear back within 3 days.",
-            type: "success",
-          });
-          setDisabled(true);
-          setCancelDisabled(false);
-          response.json().then(({ requestId }) => {
-            handleRequest(requestId);
-          });
-        } else {
-          throw new Error("Invalid response from backend");
-        }
-      })
-      .catch((error) => {
-        setMessage({
-          body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually request this assignment.",
-          type: "error",
-        });
-        console.error(error);
-        setDisabled(false);
+    setMessage(null);
+
+    const response = await fetch(
+      "/api/assignments/" + assignment.id + "/request",
+      {
+        method: "POST",
+        body: JSON.stringify({ email: userData.email }),
+      }
+    );
+    console.log("RESPONSE", response);
+
+    if (response.ok) {
+      setMessage({
+        body: "Success! Your request has been submitted. If selected, you should hear back within 3 days.",
+        type: "success",
       });
+      setDisabled(true);
+      setCancelDisabled(false);
+      const { requestId } = await response.json();
+      return handleRequest(requestId);
+    } else {
+      setMessage({
+        body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually request this assignment.",
+        type: "error",
+      });
+      console.error(response.body);
+      setDisabled(false);
+    }
   };
 
   // Allow writers to unrequest an assignment
   const unrequest = async (e) => {
     e.preventDefault();
     setCancelDisabled(true);
-    setMessage(false);
-    fetch("/api/requests/" + assignment.request_id, { method: "DELETE" })
-      .then((response) => {
-        if (response.ok) {
-          setMessage({
-            body: "Success! Your request has been canceled.",
-            type: "success",
-          });
-          setCancelDisabled(true);
-          handleUnRequest();
-        } else {
-          throw new Error("Invalid response from backend");
-        }
-      })
-      .catch((error) => {
-        setMessage({
-          body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually cancel this request.",
-          type: "error",
-        });
-        console.error(error);
-        setCancelDisabled(false);
+    setMessage(null);
+
+    const response = await fetch("/api/requests/" + assignment.request_id, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      setMessage({
+        body: "Success! Your request has been canceled.",
+        type: "success",
       });
+      setDisabled(false);
+      setCancelDisabled(true);
+      return handleUnRequest();
+    } else {
+      setMessage({
+        body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually cancel this request.",
+        type: "error",
+      });
+      console.error(response.body);
+      setCancelDisabled(false);
+    }
   };
 
   useEffect(() => {
@@ -85,7 +84,6 @@ export default function RequestAssignment({
       });
     }
   }, [userData, assignment]);
-  console.log(assignment.request_id);
 
   return (
     <div className="assignment-actions">

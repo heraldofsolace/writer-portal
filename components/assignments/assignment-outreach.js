@@ -76,8 +76,6 @@ export default function AssignmentOutreach({
       });
   };
 
-  console.log(assignment.request_id);
-
   return (
     <div className="assignment-actions">
       {assignment.status === assignmentStatuses.assigning &&

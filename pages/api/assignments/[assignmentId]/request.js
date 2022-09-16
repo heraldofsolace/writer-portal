@@ -30,7 +30,7 @@ export default requireAuth(async (req, res) => {
   const result = await createRequest(assignmentId, writerData.data.id);
 
   if (!result.error) {
-    return res.status(200).send({ requestId: result.data.id });
+    return res.status(200).send({ requestId: result.data[0].id });
   }
   return res.status(500).send("Server error");
 });

@@ -13,8 +13,6 @@ dayjs.extend(utc);
 
 export default function Requests({ type }) {
   const { requests, isLoading, isError } = useRequests(type);
-  console.log("isLoading ", isLoading);
-  console.log("requests", requests);
   if (isLoading) {
     return (
       <div className="overflow-x-auto w-full">

@@ -279,7 +279,6 @@ export default function SingleAssignment({ assignmentId, emailId }) {
           handleAccept={handleOutreachAccept}
           handleReject={handleOutreachReject}
         />
-
         <RequestAssignment
           assignment={assignment}
           userData={writer}
