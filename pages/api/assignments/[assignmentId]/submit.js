@@ -1,6 +1,7 @@
 import { getSingleAssignment, submit } from "../../../../functions/assignments";
 import { requireAuth, users } from "@clerk/nextjs/api";
 import { getCurrentWriter } from "../../../../functions/writers";
+import { assignmentStatuses } from "../../../../constants/assignment-statuses";
 
 const submitAssignment = requireAuth(async (req, res) => {
   const { assignmentId } = req.query;
@@ -15,6 +16,18 @@ const submitAssignment = requireAuth(async (req, res) => {
   }
   if (!writer.data || !assignment.data)
     return res.status(404).send("Not found");
+
+  if (assignment.data.writer !== writer.data.id) {
+    return res
+      .status(403)
+      .json({ error: "This assignment is not assigned to you" });
+  }
+
+  if (assignment.data.status !== assignmentStatuses.writing) {
+    return res
+      .status(403)
+      .json({ error: "This article is not in the writing stage" });
+  }
 
   try {
     // Update writer submitted date
