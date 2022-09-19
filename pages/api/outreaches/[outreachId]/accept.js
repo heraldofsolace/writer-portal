@@ -13,7 +13,12 @@ export default requireAuth(async (req, res) => {
 
   if (!result.error) {
     if (!result.data) return res.status(404).send("Not found");
-    const _ = await accept(outreachId);
+    const _ = await accept(
+      outreachId,
+      result.data.assignment_id,
+      result.data.writer_id,
+      result.data.writer_rate
+    );
     return res.status(200).send({ outreachId: _.id });
   }
   return res.status(500).send("Server error");

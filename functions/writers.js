@@ -36,6 +36,7 @@ const getCurrentWriter = async (email) => {
                                 writers.email,
                                 writers.profile_photo,
                                 writers.full_name,
+                                writers.rate,
                                 writers.requests_count,                                
                                 writers.past_requests_count,
                                 writers.outreaches_count,                                
