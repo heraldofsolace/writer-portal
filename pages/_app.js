@@ -1,4 +1,3 @@
-import "purecss";
 import "../styles/globals.css";
 import Layout from "../components/layout";
 import LogRocket from "logrocket";
