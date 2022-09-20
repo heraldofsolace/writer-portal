@@ -121,11 +121,6 @@ export default function AssignmentOutreach({
       ) : (
         ""
       )}
-      {assignment.outreach_id && assignment.outreach_status === "Rejected" ? (
-        <div className={`alert alert-info shadow-lg text-white my-4`}>
-          <div>You have rejected this article</div>
-        </div>
-      ) : null}
     </div>
   );
 }
