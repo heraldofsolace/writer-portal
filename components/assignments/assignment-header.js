@@ -130,6 +130,8 @@ export default function AssignmentHeader({ assignment, writerEmail }) {
   return (
     <>
       <div>
+        {/* Hack to force Tailwind to preserve the classes */}
+        <div className="hidden alert-info alert-warning alert-success"></div>
         {data.top_link && (
           <a href={data.top_link.to}>⬅ {data.top_link.message}</a>
         )}

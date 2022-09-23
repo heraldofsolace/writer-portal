@@ -11,12 +11,13 @@ const base = new Airtable({
   endpointUrl: "https://proxy.syncinc.so/api.airtable.com",
 }).base(process.env.AIRTABLE_BASE);
 
-const updateOutreach = async (outreachId, status) => {
+const updateOutreach = async (outreachId, status, reasonForRejection) => {
   return base(tableName).update([
     {
       id: outreachId,
       fields: {
         Status: status,
+        "Reason for rejection": reasonForRejection,
       },
     },
   ]);
@@ -41,7 +42,8 @@ export const accept = async (
   ]);
 };
 
-export const reject = (outreachId) => updateOutreach(outreachId, "Rejected");
+export const reject = (outreachId, reasonForRejection) =>
+  updateOutreach(outreachId, "Rejected", reasonForRejection);
 
 export const getOutreaches = async (type, email) => {
   if (!["all", "past", "pending"].includes(type)) {

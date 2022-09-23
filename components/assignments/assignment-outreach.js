@@ -9,13 +9,13 @@ export default function AssignmentOutreach({
 }) {
   const [disabled, setDisabled] = useState(false);
   const [rejectDisabled, setRejectDisabled] = useState(false);
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState(null);
 
   // Allow writers to request an assignment
   const accept = async (e) => {
     e.preventDefault();
     setDisabled(true);
-    setMessage(false);
+    setMessage(null);
     fetch("/api/outreaches/" + assignment.outreach_id + "/accept", {
       method: "POST",
       body: JSON.stringify({ email: userData.email }),
@@ -47,12 +47,12 @@ export default function AssignmentOutreach({
 
   // Allow writers to unrequest an assignment
   const reject = async (e) => {
-    e.preventDefault();
     setRejectDisabled(true);
-    setMessage(false);
+    setMessage(null);
+    const reasonForRejection = document.querySelector("#reason").value;
     fetch("/api/outreaches/" + assignment.outreach_id + "/reject", {
       method: "POST",
-      body: JSON.stringify({ email: userData.email }),
+      body: JSON.stringify({ reasonForRejection }),
     })
       .then((response) => {
         if (response.ok) {
@@ -96,10 +96,10 @@ export default function AssignmentOutreach({
           >
             Accept
           </button>
-          <a
+          <label
             className="btn btn-error text-white mx-4"
             href="#"
-            onClick={reject}
+            htmlFor="outreach-modal"
             disabled={
               rejectDisabled ||
               assignment.expired === "Yes" ||
@@ -107,7 +107,7 @@ export default function AssignmentOutreach({
             }
           >
             Reject
-          </a>
+          </label>
 
           {message ? (
             <div
@@ -121,6 +121,39 @@ export default function AssignmentOutreach({
       ) : (
         ""
       )}
+      <input type="checkbox" id="outreach-modal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle lg:left-80">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">
+            Are you sure you want to reject this outreach? You will not be able
+            to request this article afterwards
+          </h3>
+          <p className="py-4">
+            Why are you rejecting this article? (optional)
+            <br />
+            <small>
+              Providing a reason helps us better curate article for you in the
+              future
+            </small>
+          </p>
+          <textarea className="w-full h-32 p-4" id="reason"></textarea>
+          <div className="modal-action">
+            <label
+              htmlFor="outreach-modal"
+              className="btn btn-error text-white"
+            >
+              Cancel
+            </label>
+            <label
+              htmlFor="outreach-modal"
+              className="btn btn-success text-white"
+              onClick={reject}
+            >
+              Reject
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
