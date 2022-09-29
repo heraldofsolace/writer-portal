@@ -11,6 +11,10 @@ module.exports = withTM({
         protocol: "https",
         hostname: "dl.airtable.com",
         pathname: "/.attachments/**",
+      },{
+        protocol: "https",
+        hostname: "proxy.sequin.io",
+        pathname: "/attachment/**",
       },
     ],
   },
