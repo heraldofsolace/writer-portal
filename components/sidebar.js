@@ -51,7 +51,7 @@ export default function Sidebar({ children }) {
                 <div className="avatar mb-4">
                   <div className="w-24 h-24 rounded-full">
                     <Image
-                      src={writer.profile_photo[0]}
+                      src={writer.new_profile_photo}
                       alt={"Writer profile photo"}
                       width="120px"
                       height="120px"
