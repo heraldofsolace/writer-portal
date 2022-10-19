@@ -1,35 +1,17 @@
-const {Pool} = require("pg");
-const connectionString = process.env.PG_CONNECTION_STRING;
-const pool = new Pool({connectionString});
-import * as dayjs from "dayjs";
+import { getWriter } from "../../../functions/writers";
 
-export default async (req, res) => {
-    const {writerId} = req.query;
+const fetchWriter = async (req, res) => {
+  if (req.method !== "GET") {
+    return res.status(405).send("Method not allowed");
+  }
 
-    try {
-        if (req.method === "GET") {
+  const { writerId } = req.query;
+  const result = await getWriter(writerId);
 
-            const query = `select first_name,
-                                  last_name,
-                                  location,
-                                  website,
-                                  bio,
-                                  profile_photo,
-                                  created_at,
-                                  post_count,
-                                  twitter_link
-                           from writers
-                           where writers.id like $1;`;
-            const {rows} = await pool.query(query, [writerId]);
-
-            // Respond with results
-            res.statusCode = 200;
-            res.json(rows[0]);
-        }
-    } catch (e) {
-        // Handle any errors
-        console.log(e);
-        res.statusCode = 500;
-        res.end("Server error. Something went wrong.");
-    }
+  if (!result.error) {
+    if (!result.data) return res.status(404).send("Not found");
+    return res.status(200).send(result.data);
+  }
+  return res.status(500).send("Server error");
 };
+export default fetchWriter;

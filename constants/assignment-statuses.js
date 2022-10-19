@@ -2,7 +2,7 @@ export const assignmentStatuses = {
   planning: "Planning",
   assigning: "Assigning",
   writing: "Writing",
-  ready_for_editing: "Ready for Editing",
+  tech_review: "Tech Review",
   editing: "Editing",
   author_review: "Author Review",
   copyediting: "Copyediting",

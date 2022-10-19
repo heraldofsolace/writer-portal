@@ -1,58 +1,108 @@
-import {assignmentStatuses} from "../../constants/assignment-statuses";
-import {useState, useEffect} from "react";
 import * as dayjs from "dayjs";
 import * as localizedFormat from "dayjs/plugin/localizedFormat";
+import { useAvailableAssignments } from "../../data/use-assignments";
+import { Error } from "../error";
 import * as utc from "dayjs/plugin/utc";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 
 export default function AvailableAssignments() {
-    const [assignments, setAssignments] = useState(null);
-    
-    const getAssignments = () => {
-        fetch(`/api/assignments/available`)
-        .then(resp => resp.json())
-        .then(json => setAssignments(json))
-        .catch(e => {
-            console.error(e);
-            setAssignments(false);
-        });
-    }
+  const { assignments, isLoading, isError } = useAvailableAssignments();
 
-    useEffect(() => {
-      getAssignments();
-    }, []);
-
+  if (isLoading) {
     return (
-        <table className="pure-table">
+      <div className="overflow-x-auto w-full">
+        <table className="table w-full">
           <thead>
-          <tr>
+            <tr>
+              <th></th>
               <th>Title</th>
               <th>Due Date</th>
-              <th>Categories</th>
-          </tr>
+              <th>Content Categories</th>
+            </tr>
           </thead>
           <tbody>
-          {assignments && assignments.length > 0 ? (
-            assignments.map((assignment) => (
-              <tr key={assignment.id}>
-                  <td>
-                      <a href={"/assignments/" + assignment.id}>{assignment.title}</a>
-                      <br/>
-                      <small>{assignment.request_date ? (' ✔ Request Submitted️') : 'For ' + assignment.client_name}</small>
-                  </td>
-                  <td>{dayjs(assignment.writer_due_date).utc().format("LL")}</td>
-                  <td>{assignment.content_category_names}</td>
-              </tr>
-            ))) : (assignments && assignments.length === 0) ? (
-                <tr><td colSpan="3">
-                  No available assignments found. Please check back later.
-                </td></tr>
-            ) : (
-                <tr><td colSpan="3">Loading...</td></tr>
-            )}
+            <tr role="status" className="max-w-sm animate-pulse p-5">
+              <td></td>
+              <td>
+                <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+              </td>
+              <td>
+                <div className="h-2.5 bg-gray-100 rounded-full dark:bg-gray-500 w-8 mb-4"></div>
+              </td>
+              <td>
+                <div className="h-2.5 bg-gray-100 rounded-full dark:bg-gray-500 w-16 mb-4"></div>
+              </td>
+            </tr>
           </tbody>
-      </table>
+        </table>
+      </div>
     );
+  }
+  if (isError) {
+    return <Error />;
+  }
+
+  let serial = 1;
+  return (
+    <div className="overflow-x-auto">
+      <table className="table w-full">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Content Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          {assignments.map((assignment) => (
+            <tr key={assignment.id}>
+              <th>{serial++}</th>
+              <td>
+                <div className="flex flex-col">
+                  <div className="font-bold">
+                    <a href={"/assignments/" + assignment.id}>
+                      {assignment.title}
+                    </a>
+                  </div>
+                  <div className="text-sm opacity-50">
+                    For {assignment.client_name}
+                  </div>
+                  {assignment.request_date ? (
+                    <div
+                      className="tooltip text-left"
+                      data-tip={
+                        "Requested on " +
+                        dayjs(assignment.request_date).format("LL")
+                      }
+                    >
+                      <span
+                        className={`badge badge-sm badge-request-${assignment.request_status}`}
+                      >
+                        Request {assignment.request_status}
+                      </span>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </td>
+              <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
+              <td>{assignment.content_category_names}</td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Content Categories</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  );
 }

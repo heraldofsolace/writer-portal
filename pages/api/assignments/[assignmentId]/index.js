@@ -1,57 +1,19 @@
-const {Pool} = require("pg");
-const connectionString = process.env.PG_CONNECTION_STRING;
-const pool = new Pool({connectionString});
-import { requireSession, users } from "@clerk/nextjs/api";
+import { requireAuth, users } from "@clerk/nextjs/api";
+import { getSingleAssignment } from "../../../../functions/assignments";
 
-export default requireSession(async (req, res) => {
-    try {
-        const {assignmentId} = req.query;
-        // Get user from Clerk API
-        const user = await users.getUser(req.session.userId);
+export default requireAuth(async (req, res) => {
+  if (req.method !== "GET") return res.status(400).send("Method not allowed");
+  const { userId } = req.auth;
+  const user = await users.getUser(userId);
+  const { assignmentId } = req.query;
+  const result = await getSingleAssignment(
+    assignmentId,
+    user.emailAddresses[0].emailAddress
+  );
 
-        if (req.method === "GET") {
-            // Get assignment by assignmentId
-            const query = `select assignments.title,
-                                  assignments.id,
-                                  assignments.client_name,
-                                  assignments.status,
-                                  assignments.pitch,
-                                  assignments.brief_url,
-                                  assignments.outline,
-                                  assignments.published_url,
-                                  assignments.writer_email,
-                                  assignments.writer_payout,
-                                  assignments.writer_due_date,
-                                  assignments.writer_paid_date,
-                                  assignments.writer_deliverables,
-                                  assignments.writer,
-                                  assignments.audience,
-                                  assignments.target_keyword,
-                                  assignments.what_sets_the_company_apart,
-                                  assignments.call_to_action,
-                                  assignments.technical_level,
-                                  assignments.tools_to_be_used,
-                                  assignments.tools_to_be_excluded,
-                                  assignments.competitors,
-                                  assignments.mention_of_product,
-                                  your_requests.request_date,
-                                  your_requests.id as request_id
-                           from assignments
-                           left join (
-                               select * from requests
-                               where $2 = ANY (writer_email)
-                           ) as your_requests on your_requests.id = ANY (assignments.requests)
-                           where assignments.id like $1;`;
-            const {rows} = await pool.query(query, [assignmentId, user.emailAddresses[0].emailAddress]);
-
-            // Respond with results
-            res.statusCode = 200;
-            res.json(rows[0]);
-        }
-    } catch (e) {
-        // Handle any errors
-        console.log(e);
-        res.statusCode = 500;
-        res.end("Server error. Something went wrong.");
-    }
+  if (!result.error) {
+    if (!result.data) return res.status(404).send("Not found");
+    return res.status(200).send(result.data);
+  }
+  return res.status(500).send(result.error);
 });

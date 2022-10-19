@@ -1,49 +1,17 @@
-const { Pool } = require("pg");
-const connectionString = process.env.PG_CONNECTION_STRING;
-const pool = new Pool({ connectionString });
-import { requireSession, users } from "@clerk/nextjs/api";
+import { requireAuth, users } from "@clerk/nextjs/api";
+import { getAvailableAssignments } from "../../../functions/assignments";
 
-export default requireSession(async (req, res) => {
-  try {
-    // Get user from Clerk API
-    const user = await users.getUser(req.session.userId);
+export default requireAuth(async (req, res) => {
+  if (req.method !== "GET") return res.status(400).send("Method not allowed");
+  const { userId } = req.auth;
+  const user = await users.getUser(userId);
+  const result = await getAvailableAssignments(
+    user.emailAddresses[0].emailAddress
+  );
 
-    if (req.method === "GET") {
-      // Get assignments
-      const query = `select assignments.title,
-                            assignments.id,
-                            assignments.client_name,
-                            assignments.status,
-                            assignments.pitch,
-                            assignments.brief_url,
-                            assignments.writer_due_date,
-                            assignments.writer,
-                            assignments.content_categories,
-                            assignments.content_types_names ,
-                            string_agg(content_categories.name, ', ') as content_category_names,
-                            your_requests.request_date
-                     from assignments
-                            left join content_categories on content_categories.id = ANY (assignments.content_categories)
-                            left join (
-                                select * from requests
-                                where $2 = ANY (writer_email)
-                            ) as your_requests on your_requests.id = ANY (assignments.requests)
-                     where assignments.status like $1
-                     and lower(assignments.content_types_names) not like $3
-                     and assignments.writer_due_date < current_date + interval '45' day
-                     and assignments.writer = '{}'
-                     group by assignments.id, your_requests.request_date
-                     order by assignments.writer_due_date asc;`;
-      const { rows } = await pool.query(query, ['Assigning', user.emailAddresses[0].emailAddress, 'content transformation']);
-
-      // Respond with results
-      res.statusCode = 200;
-      return res.json(rows);
-    }
-  } catch (e) {
-    // Handle any errors
-    console.log(e);
-    res.statusCode = 500;
-    return res.end("Server error. Something went wrong.");
+  if (!result.error) {
+    if (!result.data) return res.status(404).send("Not found");
+    return res.status(200).send(result.data);
   }
+  return res.status(500).send(result.error);
 });

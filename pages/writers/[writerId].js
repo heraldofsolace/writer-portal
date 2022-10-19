@@ -1,63 +1,124 @@
-import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import React from "react";
+import { useWriter } from "../../data/use-writer";
+import Image from "next/image";
+import { getWriter } from "../../functions/writers";
+import { SWRConfig } from "swr";
+import Link from "next/link";
 
-export default function Writer() {
-    const router = useRouter();
-    const {writerId} = router.query;
-    const [writer, setWriter] = useState(null);
+export default function WriterPage({ fallback, writerId }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Writer writerId={writerId} />
+    </SWRConfig>
+  );
+}
 
-    const getWriter = () => {
-        fetch(`/api/writers/${writerId}`)
-            .then(resp => resp.json())
-            .then(json => setWriter(json))
-            .catch(e => {
-                console.error(e);
-                setWriter(false);
-            });
-    };
+function Writer({ writerId }) {
+  const { writer } = useWriter(writerId);
 
-    // Get data from the API
-    useEffect(() => {
-        if (router.isReady) {
-            getWriter();
-        }
-    }, [router.isReady]);
+  return (
+    <>
+      <header className="sticky h-20">
+        <div className="logo">
+          <Link href={"/"}>
+            <a className="text-white text-xl font-bold">
+              DRAFT.DEV
+              <br />
+            </a>
+          </Link>
+          <span className="site-name text-sm">Writer Profile</span>
+        </div>
+        <div className="nav-right">
+          <Link href={"/"}>
+            <a></a>
+          </Link>
+        </div>
+      </header>
+      <div className="flex justify-center mb-64 mt-10">
+        <div className="max-w-4xl flex justify-center">
+          <div className="card lg:card-side bg-base-100 shadow-xl">
+            <div className="flex lg:block items-center justify-center">
+              <figure className="w-4/5 h-[400px] lg:w-[600px] relative">
+                <Image
+                  src={writer.profile_photo[0]}
+                  alt={"Writer profile photo"}
+                  layout="fill"
+                />
+              </figure>
+            </div>
 
-    return (
-        <main>
-            {writer ? (
-                <div style={{minHeight: '300px'}}>
-                    <h5 style={{fontWeight: 'bold', color: '#b3aa8d', textTransform: 'uppercase'}}>DRAFT.DEV Author
-                        Profile</h5>
-                    <img src={writer.profile_photo} style={{float: 'right', maxWidth: '250px', maxHeight: '250px', marginLeft: '1rem'}}/>
-                    <h1>{writer.first_name} {writer.last_name}</h1>
-                    <p style={{color: '#778780'}}>
-                        {writer.location ? (
-                            <span title='Location' style={{marginRight:'1rem'}}>🌍 {writer.location}</span>
-                        ) : ('')}
-                        {writer.post_count > 5 ? (
-                            <span title='This writer has written 5 or more articles for Draft.dev'>
-                                📚 5+ Articles
-                            </span>
-                        ) : ('')}
-                    </p>
-                    <p>{writer.bio}</p>
-                    <p style={{marginTop: '2rem'}}>
-                        {writer.website ? (
-                            <span title={'Website'}><a style={{color: '#778780'}} href={writer.website}
-                                                       target="_blank">Website</a> </span>
-                        ) : ('')}
-                        {writer.twitter_link ? (
-                            <span title={'Twitter'}><a style={{color: '#778780'}} href={writer.twitter_link}
-                                                       target="_blank">Twitter</a> </span>
-                        ) : ('')}
-                    </p>
-                </div>
-            ) : writer === false ? (
-                <p>Writer not found.</p>
-            ) : (
-                <p>Loading writer...</p>
-            )}
-        </main>
-    );
+            <div className="card-body">
+              <h2 className="card-title">
+                {writer.first_name} {writer.last_name}
+              </h2>
+              <div>
+                {writer.location ? (
+                  <div
+                    className="tooltip tooltip-left mr-4"
+                    data-tip="Location"
+                  >
+                    <span>🌍 {writer.location}</span>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {writer.post_count > 5 ? (
+                  <div
+                    className="tooltip tooltip-left mr-4"
+                    data-tip="This writer has written 5 or more articles for Draft.dev"
+                  >
+                    <span>📚 5+ Articles</span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+              <p>{writer.bio}</p>
+
+              <div className="card-actions justify-end">
+                <p>
+                  {writer.website ? (
+                    <span>
+                      <a href={writer.website} target="_blank" rel="noreferrer">
+                        Website
+                      </a>{" "}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  {writer.twitter_link ? (
+                    <span>
+                      <a
+                        href={writer.twitter_link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Twitter
+                      </a>{" "}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export async function getServerSideProps(context) {
+  const { writerId } = context.params;
+  const writer = await getWriter(writerId);
+  console.log(writer);
+  return {
+    props: {
+      fallback: {
+        [`/api/writers/${writerId}`]: writer.data,
+      },
+      writerId,
+    },
+  };
 }
