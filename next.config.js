@@ -3,8 +3,9 @@
  */
 
 const withTM = require("next-transpile-modules")(["react-markdown"]);
+const { withAxiom } = require('next-axiom');
 
-module.exports = withTM({
+module.exports = withTM(withAxiom({
   images: {
     remotePatterns: [
       {
@@ -27,4 +28,4 @@ module.exports = withTM({
       },
     ];
   },
-});
+}));

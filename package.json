@@ -25,6 +25,7 @@
     "lodash": "^4.17.21",
     "logrocket": "^2.1.2",
     "next": "^12.3.0",
+    "next-axiom": "^0.14.0",
     "next-superjson-plugin": "^0.4.1",
     "next-transpile-modules": "^9.0.0",
     "pg": "^8.6.0",
