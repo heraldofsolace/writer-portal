@@ -7,8 +7,8 @@ import React from "react";
 import AuthedOnly from "../components/authed-only";
 import Sidebar from "../components/sidebar";
 import { Header } from "../components/header";
+export { reportWebVitals } from 'next-axiom';
 
-LogRocket.init("cm06dj/writer-portal");
 const publicPages = ["/writers/[writerId]"];
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

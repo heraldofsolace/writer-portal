@@ -14,7 +14,7 @@ function getMessageFromStatus(assignment, writerEmail) {
       type: "info",
       heading: "Article published",
       top_link: {
-        to: "/assignments?type=available",
+        to: "/assignments/available",
         message: "All available assignments",
       },
       message: `This article has been published`,
@@ -61,7 +61,7 @@ function getMessageFromStatus(assignment, writerEmail) {
           type: "info",
           heading: "Request made",
           top_link: {
-            to: "/assignments?type=available",
+            to: "/assignments/available",
             message: "All available assignments",
           },
           message: "You have requested this article",
@@ -73,7 +73,7 @@ function getMessageFromStatus(assignment, writerEmail) {
         type: "info",
         heading: "Request this article",
         top_link: {
-          to: "/assignments?type=available",
+          to: "/assignments/available",
           message: "All available assignments",
         },
         message:
