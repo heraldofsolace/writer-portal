@@ -1,6 +1,6 @@
 import { assignmentStatuses } from "../../constants/assignment-statuses";
 import { useState } from "react";
-
+import { log } from "next-axiom";
 export default function AssignmentOutreach({
   assignment,
   userData,
@@ -40,7 +40,7 @@ export default function AssignmentOutreach({
           body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually accept this assignment.",
           type: "error",
         });
-        console.error(error);
+        log.error(error);
         setDisabled(false);
       });
   };

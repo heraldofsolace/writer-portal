@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { useAuth } from "@clerk/nextjs";
-
+import { log } from "next-axiom";
 export default function useClerkSWR(url) {
   const { getToken } = useAuth();
   const fetcher = async (...args) => {

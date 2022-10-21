@@ -3,24 +3,29 @@ import { useState } from "react";
 
 export default function AcceptAssignment({ assignment, handleAccept }) {
   const [disabled, setDisabled] = useState(false);
+  const [message, setMessage] = useState(null);
 
   // Allow writers to accept an assignment
   const accept = async (e) => {
     setDisabled(true);
-    fetch("/api/assignments/" + assignment.id + "/accept", {
+    setMessage(null);
+    const response = fetch("/api/assignments/" + assignment.id + "/accept", {
       method: "POST",
-    })
-      .then((response) => {
-        if (response.ok) {
-          handleAccept(e.target.value);
-        } else {
-          throw new Error("Invalid response from backend");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => setDisabled(false));
+    });
+    if (response.ok) {
+      setMessage({
+        body: "Success! The assignment has been accepted.",
+        type: "success",
+      });
+      setDisabled(true);
+      handleAccept(e.target.value);
+    } else {
+      setMessage({
+        body: "Whoops, something went wrong. Please reach out to portal@draft.dev to manually accept this assignment.",
+        type: "error",
+      });
+      setDisabled(false);
+    }
   };
 
   return (
@@ -35,6 +40,14 @@ export default function AcceptAssignment({ assignment, handleAccept }) {
           >
             Accept Assignment
           </button>
+          {message ? (
+            <div
+              className={`alert alert-${message.type} shadow-lg text-white my-4`}
+            >
+              <div>{message.body}</div>
+              <p className="alert-error hidden"></p>
+            </div>
+          ) : null}
         </div>
       ) : (
         ""
