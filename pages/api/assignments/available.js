@@ -1,5 +1,6 @@
 import { requireAuth, users } from "@clerk/nextjs/api";
 import { getAvailableAssignments } from "../../../functions/assignments";
+import { withAxiom } from "next-axiom";
 
 export default requireAuth(
   withAxiom(async (req, res) => {

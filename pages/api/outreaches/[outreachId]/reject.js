@@ -1,5 +1,6 @@
 import { getSingleOutreach, reject } from "../../../../functions/outreaches";
 import { requireAuth, users } from "@clerk/nextjs/api";
+import { withAxiom } from "next-axiom";
 
 export default requireAuth(
   withAxiom(async (req, res) => {
