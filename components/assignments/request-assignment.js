@@ -24,7 +24,6 @@ export default function RequestAssignment({
         body: JSON.stringify({ email: userData.email }),
       }
     );
-    console.log("RESPONSE", response);
 
     if (response.ok) {
       setMessage({
@@ -37,10 +36,9 @@ export default function RequestAssignment({
       return handleRequest(requestId);
     } else {
       setMessage({
-        body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually request this assignment.",
+        body: "Whoops, something went wrong. Please reach out to portal@draft.dev to manually request this assignment.",
         type: "error",
       });
-      console.error(response.body);
       setDisabled(false);
     }
   };
@@ -64,10 +62,9 @@ export default function RequestAssignment({
       return handleUnRequest();
     } else {
       setMessage({
-        body: "Whoops, something went wrong. Please reach out to editor@draft.dev to manually cancel this request.",
+        body: "Whoops, something went wrong. Please reach out to portal@draft.dev to manually cancel this request.",
         type: "error",
       });
-      console.error(response.body);
       setCancelDisabled(false);
     }
   };

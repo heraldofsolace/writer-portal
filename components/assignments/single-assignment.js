@@ -300,10 +300,19 @@ export default function SingleAssignment({ assignmentId, emailId }) {
         ) : null}
         <p className="my-4">
           Have a question about this assignment? Take a look at the{" "}
-          <a href="https://www.notion.so/draftdev/Writer-FAQ-e52b75bd31b44fc0b21c884083c9ed15">
+          <a
+            href="https://www.notion.so/draftdev/Writer-FAQ-e52b75bd31b44fc0b21c884083c9ed15"
+            className={"text-success underline"}
+          >
             Writer FAQ
           </a>{" "}
-          or email <a href="mailto:editor@draft.dev">editor@draft.dev</a>
+          or email{" "}
+          <a
+            href="mailto:editor@draft.dev"
+            className={"text-success underline"}
+          >
+            editor@draft.dev
+          </a>
         </p>
       </div>
     </div>

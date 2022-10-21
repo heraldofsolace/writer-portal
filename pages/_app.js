@@ -7,7 +7,8 @@ import React from "react";
 import AuthedOnly from "../components/authed-only";
 import Sidebar from "../components/sidebar";
 import { Header } from "../components/header";
-export { reportWebVitals } from 'next-axiom';
+import ErrorBoundary from "../components/error-boundary";
+export { reportWebVitals } from "next-axiom";
 
 const publicPages = ["/writers/[writerId]"];
 function MyApp({ Component, pageProps }) {
@@ -18,13 +19,17 @@ function MyApp({ Component, pageProps }) {
     <ClerkProvider {...pageProps}>
       <Layout>
         {isPublicPage ? (
-          <Component {...pageProps} />
+          <ErrorBoundary>
+            <Component {...pageProps} />
+          </ErrorBoundary>
         ) : (
           <AuthedOnly>
             <div className="flex flex-col h-screen">
               <Header />
               <Sidebar>
-                <Component {...pageProps} />
+                <ErrorBoundary>
+                  <Component {...pageProps} />
+                </ErrorBoundary>
               </Sidebar>
             </div>{" "}
           </AuthedOnly>

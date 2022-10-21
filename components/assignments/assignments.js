@@ -46,7 +46,7 @@ export default function Assignments({ type }) {
   }
 
   if (isError) {
-    return <Error />;
+    return <Error error={isError} />;
   }
   let serial = 1;
   return (
