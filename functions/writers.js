@@ -50,7 +50,7 @@ const getCurrentWriter = async (email) => {
                                 and outreach.status is null and outreach.expired = 'No') as pending_outreaches_count
                           from writers
                           left join requests on requests.id = ANY (writers.requests)
-                          where writers.email like $1
+                          where writers.email like $1 and writers.status = 'Accepted'
                           ;`;
     const { rows } = await pool.query(query, [
       email,
