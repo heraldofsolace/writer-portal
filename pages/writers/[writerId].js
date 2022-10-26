@@ -39,7 +39,7 @@ function Writer({ writerId }) {
         <div className="max-w-4xl flex justify-center">
           <div className="card lg:card-side bg-base-100 shadow-xl">
             <div className="flex lg:block items-center justify-center">
-              <figure className="w-4/5 h-[400px] lg:w-[600px] relative">
+              <figure className="h-[400px] w-[400px] rounded-full relative">
                 <Image
                   src={writer.new_profile_photo}
                   alt={"Writer profile photo"}
