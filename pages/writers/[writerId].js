@@ -34,13 +34,14 @@ function Writer({ writerId }) {
           </Link>
         </div>
       </header>
+      {/*{console.log("LL", writer)}*/}
       <div className="flex justify-center mb-64 mt-10">
         <div className="max-w-4xl flex justify-center">
           <div className="card lg:card-side bg-base-100 shadow-xl">
             <div className="flex lg:block items-center justify-center">
-              <figure className="w-4/5 h-[400px] lg:w-[600px] relative">
+              <figure className="h-[400px] w-[400px] rounded-full relative">
                 <Image
-                  src={writer.profile_photo[0]}
+                  src={writer.new_profile_photo}
                   alt={"Writer profile photo"}
                   layout="fill"
                 />
@@ -112,7 +113,7 @@ function Writer({ writerId }) {
 export async function getServerSideProps(context) {
   const { writerId } = context.params;
   const writer = await getWriter(writerId);
-  console.log(writer);
+  console.log("WRITER ", writer);
   return {
     props: {
       fallback: {

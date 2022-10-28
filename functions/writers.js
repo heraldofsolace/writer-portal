@@ -4,6 +4,12 @@ const { Pool } = require("pg");
 const connectionString = process.env.PG_CONNECTION_STRING;
 const pool = new Pool({ connectionString });
 
+const fetchImage = async (src) => {
+  const headers = new Headers();
+  headers.set("Authorization", `Bearer ${process.env.AIRTABLE_API_KEY}`);
+  return fetch(src, { headers });
+};
+
 const getWriter = async (writerId) => {
   try {
     const query = `select writers.first_name,
@@ -18,7 +24,12 @@ const getWriter = async (writerId) => {
                            from writers
                            where writers.id like $1;`;
     const { rows } = await pool.query(query, [writerId]);
-    return { data: rows[0], error: null };
+    const data = rows[0];
+    if (data?.profile_photo?.[0]) {
+      const imageResponse = await fetchImage(data.profile_photo[0]);
+      data.new_profile_photo = imageResponse.url;
+    }
+    return { data, error: null };
   } catch (e) {
     console.error(e);
     return { data: null, error: e };
@@ -50,19 +61,23 @@ const getCurrentWriter = async (email) => {
                                 and outreach.status is null and outreach.expired = 'No') as pending_outreaches_count
                           from writers
                           left join requests on requests.id = ANY (writers.requests)
-                          where writers.email like $1
+                          where writers.email like $1 and writers.status = 'Accepted'
                           ;`;
     const { rows } = await pool.query(query, [
       email,
       assignmentStatuses.writing,
       assignmentStatuses.assigning,
     ]);
-
-    return { data: rows[0], error: null };
+    const data = rows[0];
+    if (data?.profile_photo?.[0]) {
+      const imageResponse = await fetchImage(data.profile_photo[0]);
+      data.new_profile_photo = imageResponse.url;
+    }
+    return { data, error: null };
   } catch (e) {
     console.error(e);
     return { data: null, error: e };
   }
 };
 
-module.exports = { getWriter, getCurrentWriter };
+module.exports = { getWriter, getCurrentWriter, fetchImage };

@@ -51,7 +51,7 @@ const getRequests = async (type, email) => {
                      from requests
                             join writers on writers.id = ANY (requests.writer)
                             join assignments on assignments.id = ANY(requests.assignment)
-                     where writers.email like $1 and ${request_status_query[type]}
+                     where writers.email like $1 and writers.status='Accepted' and ${request_status_query[type]}
                      and assignments.writer_due_date is not null
                      group by assignments.title, assignments.id, requests.id, assignments.writer_due_date
                      order by assignments.writer_due_date desc;`;
@@ -74,7 +74,7 @@ const getSingleRequest = async (requestId, email) => {
                      from requests
                             join writers on writers.id = ANY (requests.writer)
                             join assignments on assignments.id = ANY(requests.assignment)
-                     where requests.id = $1 and writers.email like $2
+                     where requests.id = $1 and writers.email like $2 and writers.status='Accepted'
                      and assignments.writer_due_date is not null
                      group by assignments.title, assignments.id, requests.id, assignments.writer_due_date
                      order by assignments.writer_due_date desc;`;

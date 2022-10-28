@@ -15,7 +15,7 @@ export default requireAuth(
     );
 
     if (!result.error) {
-      if (!result.data) {
+      if (!result.data || result.data.length === 0) {
         req.log.error(
           `User ${user.emailAddresses[0].emailAddress} does not have any assignments of type ${type}`,
           { user: user.emailAddresses[0].emailAddress }

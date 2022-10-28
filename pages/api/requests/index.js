@@ -17,7 +17,7 @@ export default requireAuth(
     const result = await getRequests(type, user.emailAddresses[0].emailAddress);
 
     if (!result.error) {
-      if (!result.data) {
+      if (!result.data || result.data.length === 0) {
         req.log.error(
           `User ${user.emailAddresses[0].emailAddress} does not have any request of type ${type}`,
           { user: user.emailAddresses[0].emailAddress }

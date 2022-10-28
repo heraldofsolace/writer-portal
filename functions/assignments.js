@@ -63,7 +63,7 @@ const getAssignments = async (type, email) => {
                             assignments.writer
                      from assignments
                             join writers on writers.id = ANY (assignments.writer)
-                     where writers.email like $1 and (${article_query[type]})
+                     where writers.email like $1 and writers.status='Accepted' and (${article_query[type]})
                      and assignments.writer_due_date is not null
                      order by assignments.writer_due_date desc;`;
     const { rows } = await pool.query(query, [email]);
