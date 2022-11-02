@@ -21,12 +21,11 @@ export default requireAuth(
     );
 
     if (!result.error) {
-      if (!result.data) {
+      if (!result.data || result.data.length === 0) {
         req.log.error(
           `User ${user.emailAddresses[0].emailAddress} does not have any outreach`,
           { user: user.emailAddresses[0].emailAddress }
         );
-        return res.status(404).send("Not found");
       }
       return res.status(200).send(result.data);
     }
