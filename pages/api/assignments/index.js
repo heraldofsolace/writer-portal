@@ -20,7 +20,6 @@ export default requireAuth(
           `User ${user.emailAddresses[0].emailAddress} does not have any assignments of type ${type}`,
           { user: user.emailAddresses[0].emailAddress }
         );
-        return res.status(404).send("Not found");
       }
       return res.status(200).send(result.data);
     }

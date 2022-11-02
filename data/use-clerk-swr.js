@@ -7,6 +7,7 @@ export default function useClerkSWR(url) {
     const res = await fetch(...args, {
       headers: { Authorization: `Bearer ${await getToken()}` },
     });
+    console.log(res);
     // If the status code is not in the range 200-299,
     // we still try to parse and throw it.
     if (!res.ok) {
