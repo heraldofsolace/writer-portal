@@ -27,6 +27,14 @@ const acceptAssignment = requireAuth(
       return res.status(404).send("Not found");
     }
 
+    if (writer.data.status === "Potential Dev Writer") {
+      req.log.error(
+        `User ${user.emailAddresses[0].emailAddress} has not onboarded yet`,
+        { user: user.emailAddresses[0].emailAddress }
+      );
+      return res.status(401).send("Not allowed");
+    }
+
     if (assignment.data.writer[0] !== writer.data.id) {
       req.log.error("Writer doesn't have permission to accept assignment", {
         user: user.emailAddresses[0].emailAddress,

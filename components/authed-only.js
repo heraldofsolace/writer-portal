@@ -6,6 +6,7 @@ import { Error } from "./error";
 
 export default function AuthedOnly({ children }) {
   const { user, isError } = useWriter("me");
+  console.log(isError);
   return (
     <main>
       <SignedIn>
@@ -13,6 +14,7 @@ export default function AuthedOnly({ children }) {
           <Error
             code="401"
             message="We couldn't find an account with that email"
+            error={isError}
           />
         ) : (
           children

@@ -3,14 +3,20 @@ import * as localizedFormat from "dayjs/plugin/localizedFormat";
 import { useAvailableAssignments } from "../../data/use-assignments";
 import { Error } from "../error";
 import * as utc from "dayjs/plugin/utc";
+import { useWriter } from "../../data/use-writer";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 
 export default function AvailableAssignments() {
   const { assignments, isLoading, isError } = useAvailableAssignments();
+  const {
+    writer,
+    isLoading: writerIsLoading,
+    isError: writerIsError,
+  } = useWriter("me");
 
-  if (isLoading) {
+  if (isLoading || writerIsLoading) {
     return (
       <div className="overflow-x-auto w-full">
         <table className="table w-full">
@@ -40,8 +46,17 @@ export default function AvailableAssignments() {
       </div>
     );
   }
-  if (isError) {
+  if (isError || writerIsError) {
     return <Error />;
+  }
+
+  if (writer.status === "Potential Dev Writer") {
+    return (
+      <Error
+        code={403}
+        message="You can request articles only after completing the onboarding process"
+      />
+    );
   }
 
   let serial = 1;

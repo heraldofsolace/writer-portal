@@ -77,8 +77,14 @@ export default function Sidebar({ children }) {
               </span>
             </div>
             {routes.map((section) => {
+              const hidden =
+                writer?.status === "Potential Dev Writer" &&
+                section.name === "Requests";
               return (
-                <div className="p-1" key={section.name}>
+                <div
+                  className={`p-1 ${hidden ? "hidden" : ""}`}
+                  key={section.name}
+                >
                   <span className="uppercase text-gray-500 mb-2">
                     {section.name}
                   </span>

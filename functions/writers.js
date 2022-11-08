@@ -52,6 +52,7 @@ const getCurrentWriter = async (email) => {
                                 writers.past_requests_count,
                                 writers.outreaches_count,                                
                                 writers.past_outreaches_count,
+                                writers.status,
                                 requests.writer_at_max_requests,
                                 (select count(*) from assignments where assignments.id = ANY(writers.pitches)
                                 and assignments.status in ($2, $3)) as current_assignments_count,
@@ -61,7 +62,7 @@ const getCurrentWriter = async (email) => {
                                 and outreach.status is null and outreach.expired = 'No') as pending_outreaches_count
                           from writers
                           left join requests on requests.id = ANY (writers.requests)
-                          where writers.email like $1 and writers.status = 'Accepted'
+                          where writers.email like $1 and (writers.status = 'Accepted' or writers.status = 'Potential Dev Writer')
                           ;`;
     const { rows } = await pool.query(query, [
       email,

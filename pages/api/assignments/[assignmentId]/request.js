@@ -32,6 +32,14 @@ export default requireAuth(
       return res.status(404).send("Not found");
     }
 
+    if (writerData.data.status === "Potential Dev Writer") {
+      req.log.error(
+        `User ${user.emailAddresses[0].emailAddress} has not onboarded yet`,
+        { user: user.emailAddresses[0].emailAddress }
+      );
+      return res.status(401).send("Not allowed");
+    }
+
     if (assignmentData.data.status !== assignmentStatuses.assigning) {
       req.log.error("Assignment not in assigning", {
         user: user.emailAddresses[0].emailAddress,

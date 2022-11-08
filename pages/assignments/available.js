@@ -5,6 +5,7 @@ import { SWRConfig } from "swr";
 import { withServerSideAuth } from "@clerk/nextjs/ssr";
 import { users } from "@clerk/nextjs/api";
 import { getAvailableAssignments } from "../../functions/assignments";
+import { getCurrentWriter } from "../../functions/writers";
 
 dayjs.extend(localizedFormat);
 
@@ -28,6 +29,7 @@ export const getServerSideProps = withServerSideAuth(async ({ req }) => {
     };
   }
   const user = await users.getUser(userId);
+  const writer = await getCurrentWriter(user.emailAddresses[0].emailAddress);
   const assignments = await getAvailableAssignments(
     user.emailAddresses[0].emailAddress
   );
@@ -36,6 +38,7 @@ export const getServerSideProps = withServerSideAuth(async ({ req }) => {
     props: {
       fallback: {
         "/api/assignments/available": assignments.data,
+        "/api/writers/me": writer.data,
       },
     },
   };
