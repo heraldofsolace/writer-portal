@@ -6,7 +6,10 @@ const pool = new Pool({ connectionString });
 
 const fetchImage = async (src) => {
   const headers = new Headers();
+  headers.set("Accept", "*/*");
   headers.set("Authorization", `Bearer ${process.env.AIRTABLE_API_KEY}`);
+  headers.set("Accept-Encoding", "application/gzip");
+  console.log(headers);
   return fetch(src, { headers });
 };
 
