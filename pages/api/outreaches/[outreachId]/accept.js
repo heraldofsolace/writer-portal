@@ -5,7 +5,7 @@ import { withAxiom } from "next-axiom";
 export default requireAuth(
   withAxiom(async (req, res) => {
     if (req.method !== "POST")
-      return res.status(400).send("Method not allowed");
+      return res.status(400).send({ error: "Method not allowed" });
     const { outreachId } = req.query;
     const { userId } = req.auth;
     const user = await users.getUser(userId);
@@ -20,7 +20,7 @@ export default requireAuth(
           `User ${user.emailAddresses[0].emailAddress} does not have any outreach with ID ${outreachId}`,
           { user: user.emailAddresses[0].emailAddress }
         );
-        return res.status(404).send("Not found");
+        return res.status(404).send({ error: "Not found" });
       }
       const _ = await accept(
         outreachId,
@@ -31,6 +31,6 @@ export default requireAuth(
       return res.status(200).send({ outreachId: _.id });
     }
     req.log.error(result.error, { user: user.emailAddresses[0].emailAddress });
-    return res.status(500).send("Server error");
+    return res.status(500).send({ error: "Server error" });
   })
 );

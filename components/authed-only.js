@@ -5,8 +5,7 @@ import { useWriter } from "../data/use-writer";
 import { Error } from "./error";
 
 export default function AuthedOnly({ children }) {
-  const { user, isError } = useWriter("me");
-  console.log(isError);
+  const { writer, isError } = useWriter("me");
   return (
     <main>
       <SignedIn>

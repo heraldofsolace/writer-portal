@@ -9,7 +9,6 @@ const fetchImage = async (src) => {
   headers.set("Accept", "*/*");
   headers.set("Authorization", `Bearer ${process.env.AIRTABLE_API_KEY}`);
   headers.set("Accept-Encoding", "application/gzip");
-  console.log(headers);
   return fetch(src, { headers });
 };
 
