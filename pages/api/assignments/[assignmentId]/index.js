@@ -9,13 +9,7 @@ export default requireAuth(
     const { userId } = req.auth;
     const user = await users.getUser(userId);
     const writer = await getCurrentWriter(user.emailAddresses[0].emailAddress);
-    if (writer?.data?.status === "Potential Dev Writer") {
-      req.log.error(
-        `User ${user.emailAddresses[0].emailAddress} has not onboarded yet`,
-        { user: user.emailAddresses[0].emailAddress }
-      );
-      return res.status(401).send("Not allowed");
-    }
+
     const { assignmentId } = req.query;
     const result = await getSingleAssignment(
       assignmentId,
@@ -29,6 +23,24 @@ export default requireAuth(
           { user: user.emailAddresses[0].emailAddress }
         );
         return res.status(404).send("Not found");
+      }
+      if (writer?.data?.status === "Potential Dev Writer") {
+        if (
+          result.data.outreach_id &&
+          !result.data.outreach_status &&
+          result.data.expired === "No"
+        ) {
+          req.log.info(
+            `User ${user.emailAddresses[0].emailAddress} has not onboarded yet but this is an outreach`,
+            { user: user.emailAddresses[0].emailAddress }
+          );
+          return res.status(200).send(result.data);
+        }
+        req.log.error(
+          `User ${user.emailAddresses[0].emailAddress} has not onboarded yet`,
+          { user: user.emailAddresses[0].emailAddress }
+        );
+        return res.status(401).send("Not allowed");
       }
       return res.status(200).send(result.data);
     }
