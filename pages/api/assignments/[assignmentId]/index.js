@@ -25,11 +25,7 @@ export default requireAuth(
         return res.status(404).send("Not found");
       }
       if (writer?.data?.status === "Potential Dev Writer") {
-        if (
-          result.data.outreach_id &&
-          !result.data.outreach_status &&
-          result.data.expired === "No"
-        ) {
+        if (result.data.outreach_id) {
           req.log.info(
             `User ${user.emailAddresses[0].emailAddress} has not onboarded yet but this is an outreach`,
             { user: user.emailAddresses[0].emailAddress }
