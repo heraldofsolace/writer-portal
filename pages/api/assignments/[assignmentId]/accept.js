@@ -18,13 +18,21 @@ const acceptAssignment = requireAuth(
         user: user.emailAddresses[0].emailAddress,
         error: writer.error ? writer : assignment,
       });
-      return res.status(500).send("Server error");
+      return res.status(500).send({ error: "Server error" });
     }
     if (!writer.data || !assignment.data) {
       req.log.error("Writer or assignment not found", {
         user: user.emailAddresses[0].emailAddress,
       });
-      return res.status(404).send("Not found");
+      return res.status(404).send({ error: "Not found" });
+    }
+
+    if (writer.data.status === "Potential Dev Writer") {
+      req.log.error(
+        `User ${user.emailAddresses[0].emailAddress} has not onboarded yet`,
+        { user: user.emailAddresses[0].emailAddress }
+      );
+      return res.status(401).send({ error: "Not allowed" });
     }
 
     if (assignment.data.writer[0] !== writer.data.id) {
@@ -54,7 +62,7 @@ const acceptAssignment = requireAuth(
     } catch (e) {
       // Handle any errors
       req.log.error(e, { user: user.emailAddresses[0].emailAddress });
-      res.status(500).send("Server error");
+      res.status(500).send({ error: "Server error" });
     }
   })
 );

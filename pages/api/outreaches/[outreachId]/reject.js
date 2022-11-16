@@ -21,12 +21,12 @@ export default requireAuth(
           `User ${user.emailAddresses[0].emailAddress} does not have any outreach with ID ${outreachId}`,
           { user: user.emailAddresses[0].emailAddress }
         );
-        return res.status(404).send("Not found");
+        return res.status(404).send({ error: "Not found" });
       }
       const _ = await reject(outreachId, reasonForRejection);
-      return res.status(200).send(_.id);
+      return res.status(200).send({ outreachId: _.id });
     }
     req.log.error(result.error, { user: user.emailAddresses[0].emailAddress });
-    return res.status(500).send("Server error");
+    return res.status(500).send({ error: "Server error" });
   })
 );

@@ -9,9 +9,12 @@ export default function AcceptAssignment({ assignment, handleAccept }) {
   const accept = async (e) => {
     setDisabled(true);
     setMessage(null);
-    const response = fetch("/api/assignments/" + assignment.id + "/accept", {
-      method: "POST",
-    });
+    const response = await fetch(
+      "/api/assignments/" + assignment.id + "/accept",
+      {
+        method: "POST",
+      }
+    );
     if (response.ok) {
       setMessage({
         body: "Success! The assignment has been accepted.",

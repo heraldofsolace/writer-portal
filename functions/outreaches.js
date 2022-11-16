@@ -70,7 +70,7 @@ export const getOutreaches = async (type, email) => {
                      from outreach
                             join writers on writers.id = ANY (outreach.writer)
                             join assignments on assignments.id = ANY(outreach.assignment)
-                     where writers.email like $1 and writers.status='Accepted' and (${outreach_status_query[type]})
+                     where writers.email like $1 and (writers.status='Accepted' or writers.status = 'Potential Dev Writer') and (${outreach_status_query[type]})
                      and assignments.writer_due_date is not null
                      group by assignments.title, assignments.id, outreach.id, assignments.writer_due_date, writers.email
                      order by assignments.writer_due_date desc;`;
@@ -99,7 +99,7 @@ export const getSingleOutreach = async (outreachId, email) => {
                      from outreach
                             join writers on writers.id = ANY (outreach.writer)
                             join assignments on assignments.id = ANY(outreach.assignment)
-                     where outreach.id = $1 and writers.email like $2 and writers.status='Accepted'
+                     where outreach.id = $1 and writers.email like $2 and (writers.status='Accepted' or writers.status = 'Potential Dev Writer')
                      and assignments.writer_due_date is not null
                      group by assignments.title, assignments.id, outreach.id, assignments.writer_due_date, writers.email, writers.id, writers.rate
                      order by assignments.writer_due_date desc;`;
