@@ -7,7 +7,7 @@ export default function RequestStatus({ status }) {
       : "badge-error";
   return (
     <span className={"badge badge-lg text-sm text-white " + color}>
-      {status}
+      {status === "Rejected" ? "Not chosen" : status}
     </span>
   );
 }
