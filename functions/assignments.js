@@ -85,6 +85,8 @@ const getAvailableAssignments = async (email) => {
                             assignments.brief_url,
                             assignments.writer_due_date,
                             assignments.writer,
+                            assignments.writer_deliverables,
+                            assignments.bonus,
                             assignments.content_categories,
                             assignments.content_types_names ,
                             string_agg(content_categories.name, ', ') as content_category_names,
@@ -131,6 +133,7 @@ const getSingleAssignment = async (assignmentId, email) => {
                                   assignments.writer_paid_date,
                                   assignments.writer_deliverables,
                                   assignments.writer,
+                                  assignments.bonus,
                                   assignments.audience,
                                   assignments.target_keyword,
                                   assignments.what_sets_the_company_apart,
@@ -163,6 +166,7 @@ const getSingleAssignment = async (assignmentId, email) => {
     return { data: null, error: e };
   }
 };
+
 module.exports = {
   accept,
   submit,

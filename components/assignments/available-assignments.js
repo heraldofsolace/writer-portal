@@ -4,9 +4,27 @@ import { useAvailableAssignments } from "../../data/use-assignments";
 import { Error } from "../error";
 import * as utc from "dayjs/plugin/utc";
 import { useWriter } from "../../data/use-writer";
-
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
+
+const getAssignmentPayout = (deliverables, writer_rate, bonus = 0) => {
+  let word_count = deliverables
+    .map((item) => {
+      return item.match(/~(\d+) word article/);
+    })
+    .filter((item) => item != null);
+  console.log(word_count);
+
+  if (word_count.length > 0) {
+    const payout =
+      Number(word_count[0][1]) <= 1500
+        ? Number(writer_rate)
+        : Math.floor((writer_rate / 1500) * Number(word_count[0][1]));
+    return payout + Number(bonus);
+  } else {
+    return null;
+  }
+};
 
 export default function AvailableAssignments() {
   const { assignments, isLoading, isError } = useAvailableAssignments();
@@ -68,6 +86,7 @@ export default function AvailableAssignments() {
             <th></th>
             <th>Title</th>
             <th>Due Date</th>
+            <th>Payout</th>
             <th>Content Categories</th>
           </tr>
         </thead>
@@ -105,6 +124,14 @@ export default function AvailableAssignments() {
                 </div>
               </td>
               <td>{dayjs(assignment.writer_due_date).format("LL")}</td>
+              <td>
+                ${" "}
+                {getAssignmentPayout(
+                  assignment.writer_deliverables,
+                  writer.rate,
+                  assignment.bonus
+                )}
+              </td>
               <td>{assignment.content_category_names}</td>
             </tr>
           ))}
@@ -114,6 +141,7 @@ export default function AvailableAssignments() {
             <th></th>
             <th>Title</th>
             <th>Due Date</th>
+            <th>Payout</th>
             <th>Content Categories</th>
           </tr>
         </tfoot>
