@@ -18,6 +18,24 @@ const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 
+const getAssignmentPayout = (deliverables, writer_rate, bonus = 0) => {
+  let word_count = deliverables
+    .map((item) => {
+      return item.match(/~(\d+) word article/);
+    })
+    .filter((item) => item != null);
+
+  if (word_count.length > 0) {
+    const payout =
+      Number(word_count[0][1]) <= 1500
+        ? Number(writer_rate)
+        : Math.floor((writer_rate / 1500) * Number(word_count[0][1]));
+    return payout + Number(bonus);
+  } else {
+    return null;
+  }
+};
+
 export default function SingleAssignment({ assignmentId, emailId }) {
   const {
     writer,
@@ -273,6 +291,21 @@ export default function SingleAssignment({ assignmentId, emailId }) {
           Expected technical level
         </h3>
         <p>{assignment.technical_level}</p>
+        {!belongsToCurrentUser() ? (
+          <>
+            <h3 className="uppercase bg-gray-100 text-gray-400 my-4 font-light">
+              Payout
+            </h3>
+            <p>
+              ${" "}
+              {getAssignmentPayout(
+                assignment.writer_deliverables,
+                writer.rate,
+                assignment.bonus
+              )}
+            </p>
+          </>
+        ) : null}
         <AssignmentOutreach
           assignment={assignment}
           userData={writer}
