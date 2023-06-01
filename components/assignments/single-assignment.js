@@ -30,7 +30,7 @@ const getAssignmentPayout = (deliverables, writer_rate, bonus = 0) => {
     const payout =
       normalized_count <= 1500
         ? Number(writer_rate)
-        : Math.floor((writer_rate / 1500) * Number(word_count[0][1]) * 0.5);
+        : Math.floor((writer_rate / 1500) + ((Number(word_count[0][1]) - 1500) * writer_rate * 0.5));
     return payout + Number(bonus);
   } else {
     return null;
