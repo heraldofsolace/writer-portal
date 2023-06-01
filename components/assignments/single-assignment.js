@@ -26,10 +26,11 @@ const getAssignmentPayout = (deliverables, writer_rate, bonus = 0) => {
     .filter((item) => item != null);
 
   if (word_count.length > 0) {
+    const normalized_count = Number(word_count[0][1]) <= 2000 ? 1500 : 2500 // 1500 words up to 2000 words. 2500 words for 2500+
     const payout =
-      Number(word_count[0][1]) <= 1500
+      normalized_count <= 1500
         ? Number(writer_rate)
-        : Math.floor((writer_rate / 1500) * Number(word_count[0][1]));
+        : Math.floor(Number(writer_rate) + ((normalized_count - 1500) * Number(writer_rate) / 1500 * 0.5));
     return payout + Number(bonus);
   } else {
     return null;
