@@ -55,7 +55,7 @@ export default function Requests({ type }) {
               </span>
               <p className="text-sm font-semibold m-5">
                 <Link href={"/assignments/available"}>
-                  <a>Request new articles</a>
+                  Request new articles
                 </Link>
               </p>
               <Link href={"/"}>

@@ -1,6 +1,5 @@
 import { SignedIn, SignedOut, useClerk } from "@clerk/nextjs";
 import SigninForm from "./navs/signin-form";
-import LogUser from "./log-user";
 import { useWriter } from "../data/use-writer";
 import { Error } from "./error";
 
