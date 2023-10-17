@@ -16,14 +16,12 @@ export function Header() {
       <div className="logo">
         <Link href={"/"} className="text-white text-xl font-bold">
           DRAFT.DEV
-          <br />
         </Link>
+        <br />
         <span className="site-name text-sm">Writer Portal</span>
       </div>
       <div className="nav-right">
-        <Link href={"/"}>
-          <a></a>
-        </Link>
+        <Link href={"/"}></Link>
       </div>
     </header>
   );

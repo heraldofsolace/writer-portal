@@ -26,7 +26,7 @@ export const accept = async (
   outreachId,
   assignmentId,
   writerId,
-  writerRate
+  writerRate,
 ) => {
   await updateOutreach(outreachId, "Accepted");
   return base("Assignments").update([

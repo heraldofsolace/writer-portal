@@ -58,13 +58,12 @@ export default function Outreaches({ type }) {
                 We&apos;ll reach out to you if we find an article we think
                 you&apos;ll be a good fit for.
               </p>
-              <Link href={"/"}>
-                <a
-                  rel="noopener noreferrer"
-                  className="px-8 py-3 font-semibold rounded dark:bg-primary text-white"
-                >
-                  Back to homepage
-                </a>
+              <Link
+                href={"/"}
+                rel="noopener noreferrer"
+                className="px-8 py-3 font-semibold rounded dark:bg-primary text-white"
+              >
+                Back to homepage
               </Link>
             </div>
           </div>
@@ -87,7 +86,7 @@ export default function Outreaches({ type }) {
                   <div className="flex flex-col flex-wrap break-words">
                     <div className="font-bold text-sm">
                       <Link href={"/assignments/" + outreach.assignment_id}>
-                        <a>{outreach.title}</a>
+                        {outreach.title}
                       </Link>
                     </div>
                   </div>
@@ -109,14 +108,6 @@ export default function Outreaches({ type }) {
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Assignment</th>
-              <th>Status</th>
-              <th>Due Date</th>
-            </tr>
-          </tfoot>
         </table>
       )}
     </div>

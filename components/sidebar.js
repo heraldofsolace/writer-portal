@@ -1,22 +1,24 @@
+"use client";
+
 import routes from "../routes";
 import Link from "next/link";
 import { IconContext } from "react-icons";
 import React from "react";
-import { useRouter } from "next/router";
 import { useWriter } from "../data/use-writer";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import SignoutLink from "./navs/signout-link";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar({ children }) {
-  const router = useRouter();
+  const pathname = usePathname();
   const { writer, isLoading, isError } = useWriter("me");
-
+  console.log(pathname);
   return (
-    <div className="drawer drawer-mobile">
+    <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="overflow-y-hidden drawer-content flex flex-col">
         {children}
-        <footer className="mt-3 footer footer-center p-4 bg-primary text-white">
+        <footer className="footer footer-center p-4 bg-primary text-white mt-auto">
           <div>
             For general inquiries or technical support, email{" "}
             <a className="text-white" href="mailto:portal@draft.dev">
@@ -25,10 +27,10 @@ export default function Sidebar({ children }) {
           </div>
         </footer>
       </div>
-      {!router.pathname.match(/\/writers\/*/) ? (
-        <div className="drawer-side">
+      {!pathname.match(/\/writers\/*/) ? (
+        <div className="drawer-side bg-gray-50">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-          <ul className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content bg-gray-100">
+          <ul className="menu p-4 overflow-y-auto w-80 text-base-content">
             <div className="mb-4 flex flex-col items-center justify-center">
               {isLoading ? (
                 <div
@@ -91,25 +93,24 @@ export default function Sidebar({ children }) {
                   {section.routes.map((route) => {
                     return (
                       <li key={route.path}>
-                        <Link href={route.path}>
-                          <a
-                            className={
-                              router.asPath === route.path
-                                ? "bg-primary text-body"
-                                : ""
-                            }
+                        <Link
+                          href={route.path}
+                          className={
+                            pathname === route.path
+                              ? "bg-primary text-body"
+                              : ""
+                          }
+                        >
+                          <IconContext.Provider
+                            value={{
+                              size: "1.5em",
+                              className: "global-class-name",
+                            }}
                           >
-                            <IconContext.Provider
-                              value={{
-                                size: "1.5em",
-                                className: "global-class-name",
-                              }}
-                            >
-                              <span>{route.icon()}</span>
-                            </IconContext.Provider>
-                            {route.name}
-                            {route.badge?.()}
-                          </a>
+                            <span>{route.icon()}</span>
+                          </IconContext.Provider>
+                          {route.name}
+                          {route.badge?.()}
                         </Link>
                       </li>
                     );

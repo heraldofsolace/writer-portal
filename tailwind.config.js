@@ -1,11 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require("tailwindcss/defaultTheme");
-
 module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   daisyui: {
     themes: [
       {
@@ -32,10 +27,9 @@ module.exports = {
         warning: "#a06e41",
         secondary: "#b3aa8d",
         words: "#5e5e5e",
-        body: "#f5f4f0",
+        body: "#ffffff",
       },
       fontFamily: {
-        sans: ["Roboto", ...defaultTheme.fontFamily.sans],
         header: ["Assistant", "sans-serif"],
       },
     },

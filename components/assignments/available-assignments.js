@@ -108,14 +108,6 @@ export default function AvailableAssignments() {
             </tr>
           ))}
         </tbody>
-        <tfoot>
-          <tr>
-            <th></th>
-            <th>Title</th>
-            <th>Due Date</th>
-            <th>Content Categories</th>
-          </tr>
-        </tfoot>
       </table>
     </div>
   );

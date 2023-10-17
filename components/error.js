@@ -2,11 +2,6 @@ import Link from "next/link";
 import { log } from "next-axiom";
 import { v4 as uuidv4 } from "uuid";
 
-function logError(error) {
-  const errorId = uuidv4();
-  log.error("Error in SWR or UI: ", { error, errorId });
-  return errorId;
-}
 export function Error({
   error = null,
   message = "Sorry, we couldn't load this page.",
@@ -23,17 +18,13 @@ export function Error({
           <p>
             Please contact{" "}
             <a href="mailto:portal@draft.dev">portal@draft.dev</a>
-            {error ? (
-              <strong> and provide the code {logError(error)}</strong>
-            ) : null}
           </p>
-          <Link href={"/"}>
-            <a
-              rel="noopener noreferrer"
-              className="px-8 py-3 font-semibold rounded dark:bg-primary text-white"
-            >
-              Back to homepage
-            </a>
+          <Link
+            href={"/"}
+            rel="noopener noreferrer"
+            className="px-8 py-3 font-semibold rounded dark:bg-primary text-white block mt-4"
+          >
+            Back to homepage
           </Link>
         </div>
       </div>

@@ -1,6 +1,7 @@
+"use client";
+
 import { Error } from "./error";
 import { log } from "next-axiom";
-import { v4 as uuidv4 } from "uuid";
 import React from "react";
 class ErrorBoundary extends React.Component {
   constructor(props) {
