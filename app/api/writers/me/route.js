@@ -5,6 +5,9 @@ import { NextResponse } from "next/server";
 
 export const GET = withAxiom(async (req) => {
   const user = await currentUser();
+  req.log.info("Fetching current user", {
+    user: user.emailAddresses[0].emailAddress,
+  });
   const result = await getCurrentWriter(user.emailAddresses[0].emailAddress);
 
   if (!result.error) {
@@ -15,6 +18,9 @@ export const GET = withAxiom(async (req) => {
       );
       return new NextResponse("Not found", { status: 404 });
     }
+    req.log.info("Fetched current user", {
+      user: user.emailAddresses[0].emailAddress,
+    });
     return NextResponse.json(result.data);
   }
   req.log.error(result.error, { user: user.emailAddresses[0].emailAddress });

@@ -51,7 +51,8 @@ export default function SingleAssignment({ assignmentId }) {
     isError: assignmentIsError,
     mutate: mutateAssignment,
   } = useSingleAssignment(assignmentId);
-
+  console.log(writerIsLoading);
+  console.log(assignmentIsLoading);
   if (writerIsLoading || assignmentIsLoading) {
     return (
       <div>

@@ -19,7 +19,7 @@ export const GET = withAxiom(async (req) => {
       `User ${user.emailAddresses[0].emailAddress} has not onboarded yet`,
       { user: user.emailAddresses[0].emailAddress },
     );
-    return new NextResponse("Not allowed", { status: 401 });
+    return new NextResponse("Not allowed", { status: 403 });
   }
   const result = await getRequests(type, user.emailAddresses[0].emailAddress);
 

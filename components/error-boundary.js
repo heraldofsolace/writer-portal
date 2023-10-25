@@ -16,6 +16,7 @@ class ErrorBoundary extends React.Component {
   }
   componentDidCatch(error, errorInfo) {
     log.error("Error occurred in UI", { error, errorInfo });
+    console.error(error);
   }
   render() {
     // Check if the error is thrown
