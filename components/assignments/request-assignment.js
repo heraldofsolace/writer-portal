@@ -15,14 +15,17 @@ export default function RequestAssignment({
   const request = async (e) => {
     e.preventDefault();
     setDisabled(true);
-    setMessage(null);
+    setMessage({
+      body: "Requesting. Please wait",
+      type: "info",
+    });
 
     const response = await fetch(
       "/api/assignments/" + assignment.id + "/request",
       {
         method: "POST",
         body: JSON.stringify({ email: userData.email }),
-      }
+      },
     );
 
     if (response.ok) {
@@ -47,7 +50,10 @@ export default function RequestAssignment({
   const unrequest = async (e) => {
     e.preventDefault();
     setCancelDisabled(true);
-    setMessage(null);
+    setMessage({
+      body: "Cancelling request. Please wait",
+      type: "info",
+    });
 
     const response = await fetch("/api/requests/" + assignment.request_id, {
       method: "DELETE",

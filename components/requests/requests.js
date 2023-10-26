@@ -55,16 +55,15 @@ export default function Requests({ type }) {
               </span>
               <p className="text-sm font-semibold m-5">
                 <Link href={"/assignments/available"}>
-                  <a>Request new articles</a>
+                  Request new articles
                 </Link>
               </p>
-              <Link href={"/"}>
-                <a
-                  rel="noopener noreferrer"
-                  className="px-8 py-3 font-semibold rounded dark:bg-primary text-white"
-                >
-                  Back to homepage
-                </a>
+              <Link
+                href={"/"}
+                rel="noopener noreferrer"
+                className="px-8 py-3 font-semibold rounded dark:bg-primary text-white"
+              >
+                Back to homepage
               </Link>
             </div>
           </div>
@@ -87,7 +86,7 @@ export default function Requests({ type }) {
                   <div className="flex flex-col flex-wrap break-words">
                     <div className="font-bold text-sm">
                       <Link href={"/assignments/" + request.assignment_id}>
-                        <a>{request.title}</a>
+                        {request.title}
                       </Link>
                     </div>
                   </div>
@@ -103,14 +102,6 @@ export default function Requests({ type }) {
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Assignment</th>
-              <th>Status</th>
-              <th>Due Date</th>
-            </tr>
-          </tfoot>
         </table>
       )}
     </div>

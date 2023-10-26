@@ -8,12 +8,15 @@ export default function AcceptAssignment({ assignment, handleAccept }) {
   // Allow writers to accept an assignment
   const accept = async (e) => {
     setDisabled(true);
-    setMessage(null);
+    setMessage({
+      body: "Accepting. Please wait",
+      type: "info",
+    });
     const response = await fetch(
       "/api/assignments/" + assignment.id + "/accept",
       {
         method: "POST",
-      }
+      },
     );
     if (response.ok) {
       setMessage({

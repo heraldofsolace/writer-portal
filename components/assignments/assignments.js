@@ -11,7 +11,6 @@ dayjs.extend(utc);
 
 export default function Assignments({ type }) {
   const { assignments, isLoading, isError } = useAssignments(type);
-
   if (isLoading) {
     return (
       <div className="overflow-x-auto w-full">
@@ -85,16 +84,15 @@ export default function Assignments({ type }) {
               </span>
               <p className="text-sm font-semibold m-5">
                 <Link href={"/assignments/available"}>
-                  <a>Request new articles</a>
+                  Request new articles
                 </Link>
               </p>
-              <Link href={"/"}>
-                <a
-                  rel="noopener noreferrer"
-                  className="px-8 py-3 font-semibold rounded dark:bg-primary text-white"
-                >
-                  Back to homepage
-                </a>
+              <Link
+                href={"/"}
+                rel="noopener noreferrer"
+                className="px-8 py-3 font-semibold rounded dark:bg-primary text-white"
+              >
+                Back to homepage
               </Link>
             </div>
           </div>
@@ -176,15 +174,6 @@ export default function Assignments({ type }) {
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Title</th>
-              <th>Status</th>
-              <th>Due Date</th>
-              <th>Payment</th>
-            </tr>
-          </tfoot>
         </table>
       )}
     </div>

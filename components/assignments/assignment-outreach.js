@@ -15,7 +15,10 @@ export default function AssignmentOutreach({
   const accept = async (e) => {
     e.preventDefault();
     setDisabled(true);
-    setMessage(null);
+    setMessage({
+      body: "Accepting. Please wait",
+      type: "info",
+    });
     fetch("/api/outreaches/" + assignment.outreach_id + "/accept", {
       method: "POST",
       body: JSON.stringify({ email: userData.email }),
@@ -48,7 +51,10 @@ export default function AssignmentOutreach({
   // Allow writers to unrequest an assignment
   const reject = async (e) => {
     setRejectDisabled(true);
-    setMessage(null);
+    setMessage({
+      body: "Rejecting. Please wait",
+      type: "info",
+    });
     const reasonForRejection = document.querySelector("#reason").value;
     fetch("/api/outreaches/" + assignment.outreach_id + "/reject", {
       method: "POST",
@@ -98,7 +104,6 @@ export default function AssignmentOutreach({
           </button>
           <label
             className="btn btn-error text-white mx-4"
-            href="#"
             htmlFor="outreach-modal"
             disabled={
               rejectDisabled ||

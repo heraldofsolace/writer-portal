@@ -10,10 +10,8 @@ import AssignmentHeader from "../../components/assignments/assignment-header";
 import { useWriter } from "../../data/use-writer";
 import { useSingleAssignment } from "../../data/use-assignments";
 import { Error } from "../error";
-import dynamic from "next/dynamic";
 import AssignmentOutreach from "./assignment-outreach";
-
-const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
+import Markdown from "react-markdown";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
@@ -26,18 +24,21 @@ const getAssignmentPayout = (deliverables, writer_rate, bonus = 0) => {
     .filter((item) => item != null);
 
   if (word_count.length > 0) {
-    const normalized_count = Number(word_count[0][1]) <= 2000 ? 1500 : 2500 // 1500 words up to 2000 words. 2500 words for 2500+
+    const normalized_count = Number(word_count[0][1]) <= 2000 ? 1500 : 2500; // 1500 words up to 2000 words. 2500 words for 2500+
     const payout =
       normalized_count <= 1500
         ? Number(writer_rate)
-        : Math.floor(Number(writer_rate) + ((normalized_count - 1500) * Number(writer_rate) / 1500 * 0.5));
+        : Math.floor(
+            Number(writer_rate) +
+              (((normalized_count - 1500) * Number(writer_rate)) / 1500) * 0.5,
+          );
     return payout + Number(bonus);
   } else {
     return null;
   }
 };
 
-export default function SingleAssignment({ assignmentId, emailId }) {
+export default function SingleAssignment({ assignmentId }) {
   const {
     writer,
     isLoading: writerIsLoading,
@@ -50,7 +51,8 @@ export default function SingleAssignment({ assignmentId, emailId }) {
     isError: assignmentIsError,
     mutate: mutateAssignment,
   } = useSingleAssignment(assignmentId);
-
+  console.log(writerIsLoading);
+  console.log(assignmentIsLoading);
   if (writerIsLoading || assignmentIsLoading) {
     return (
       <div>
@@ -137,7 +139,7 @@ export default function SingleAssignment({ assignmentId, emailId }) {
     // We simply assume things went well.
     mutateAssignment(
       { ...assignment, request_id: requestId },
-      { revalidate: false }
+      { revalidate: false },
     );
     mutateWriter(
       {
@@ -146,7 +148,7 @@ export default function SingleAssignment({ assignmentId, emailId }) {
           Number(writer.pending_requests_count) + 1
         ).toString(),
       },
-      { revalidate: false }
+      { revalidate: false },
     );
   };
 
@@ -156,7 +158,7 @@ export default function SingleAssignment({ assignmentId, emailId }) {
     // We simply assume things went well.
     mutateAssignment(
       { ...assignment, request_id: null },
-      { revalidate: false }
+      { revalidate: false },
     );
     mutateWriter(
       {
@@ -165,7 +167,7 @@ export default function SingleAssignment({ assignmentId, emailId }) {
           Number(writer.pending_requests_count) - 1
         ).toString(),
       },
-      { revalidate: false }
+      { revalidate: false },
     );
   };
 
@@ -207,7 +209,7 @@ export default function SingleAssignment({ assignmentId, emailId }) {
           Outline
         </h3>
         <div className="prose">
-          <ReactMarkdown>{assignment.outline}</ReactMarkdown>
+          <Markdown>{assignment.outline}</Markdown>
         </div>
         {assignment.published_url ? (
           <>
@@ -302,7 +304,7 @@ export default function SingleAssignment({ assignmentId, emailId }) {
               {getAssignmentPayout(
                 assignment.writer_deliverables,
                 writer.rate,
-                assignment.bonus
+                assignment.bonus,
               )}
             </p>
           </>

@@ -36,7 +36,7 @@ function getMessageFromStatus(assignment, writerEmail) {
           message: ` Are you interested in writing this article? Click on the
               'Accept' button to accept the assignment. Otherwise,
               click on the 'Reject' button. You have until ${dayjs(
-                assignment.reached_out_on
+                assignment.reached_out_on,
               )
                 .add(2, "day")
                 .utc()
@@ -140,22 +140,7 @@ export default function AssignmentHeader({ assignment, writerEmail }) {
         )}
         {data.type && (
           <div className={`alert shadow-lg text-white my-4 alert-${data.type}`}>
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current flex-shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              {data.message}
-            </div>
+            <div className="inline">{data.message}</div>
           </div>
         )}
       </div>

@@ -1,13 +1,12 @@
-import useSWR from "swr";
 import { useAuth } from "@clerk/nextjs";
-import { log } from "next-axiom";
+import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 export default function useClerkSWR(url) {
   const { getToken } = useAuth();
   const fetcher = async (...args) => {
     const res = await fetch(...args, {
       headers: { Authorization: `Bearer ${await getToken()}` },
     });
-    console.log(res);
     // If the status code is not in the range 200-299,
     // we still try to parse and throw it.
     if (!res.ok) {
@@ -20,5 +19,5 @@ export default function useClerkSWR(url) {
 
     return res.json();
   };
-  return useSWR(url, fetcher);
+  return useSWRImmutable(url, fetcher);
 }

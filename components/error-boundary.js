@@ -1,6 +1,7 @@
+"use client";
+
 import { Error } from "./error";
 import { log } from "next-axiom";
-import { v4 as uuidv4 } from "uuid";
 import React from "react";
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class ErrorBoundary extends React.Component {
   }
   componentDidCatch(error, errorInfo) {
     log.error("Error occurred in UI", { error, errorInfo });
+    console.error(error);
   }
   render() {
     // Check if the error is thrown
