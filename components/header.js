@@ -1,3 +1,5 @@
+"use client";
+
 import { HiMenu } from "react-icons/hi";
 import Link from "next/link";
 import React from "react";

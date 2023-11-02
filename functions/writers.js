@@ -27,10 +27,10 @@ const getWriter = async (writerId) => {
                            where writers.id like $1;`;
     const { rows } = await pool.query(query, [writerId]);
     const data = rows[0];
-    // if (data?.profile_photo?.[0]) {
-    //   const imageResponse = await fetchImage(data.profile_photo[0]);
-    //   data.new_profile_photo = imageResponse.url;
-    // }
+    if (data?.profile_photo?.[0]) {
+      const imageResponse = await fetchImage(data.profile_photo[0]);
+      data.new_profile_photo = imageResponse.url;
+    }
     return { data, error: null };
   } catch (e) {
     console.error(e);
