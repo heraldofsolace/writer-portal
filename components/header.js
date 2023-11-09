@@ -9,7 +9,7 @@ export function Header() {
     <header className="sticky h-20">
       <label
         htmlFor="my-drawer-2"
-        className="drawer-button lg:hidden flex items-center mr-5"
+        className="drawer-button lg:hidden flex items-center mr-5 cursor-pointer"
       >
         <span className="align-middle">
           <HiMenu />
@@ -21,9 +21,6 @@ export function Header() {
         </Link>
         <br />
         <span className="site-name text-sm">Writer Portal</span>
-      </div>
-      <div className="nav-right">
-        <Link href={"/"}></Link>
       </div>
     </header>
   );
