@@ -132,6 +132,7 @@ const getSingleAssignment = async (assignmentId, email) => {
                                   assignments.writer_due_date,
                                   assignments.writer_paid_date,
                                   assignments.writer_deliverables,
+                                  assignments.content_types_names,
                                   assignments.writer,
                                   assignments.bonus,
                                   assignments.audience,

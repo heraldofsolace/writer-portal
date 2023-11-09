@@ -84,6 +84,11 @@ export default function AvailableAssignments() {
                   <div className="text-sm opacity-50">
                     For {assignment.client_name}
                   </div>
+                  <div>
+                    <span className="badge badge-sm">
+                      {assignment.content_types_names}
+                    </span>
+                  </div>
                   {assignment.request_date ? (
                     <div
                       className="tooltip text-left"
