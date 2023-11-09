@@ -92,7 +92,7 @@ export default function SingleAssignment({ assignmentId }) {
           </h3>
           <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 m-4"></div>
           <h3 className="uppercase bg-gray-100 text-gray-400 my-2 font-light">
-            Expected technical level
+            Content Type
           </h3>
           <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 m-4"></div>
         </div>
@@ -291,9 +291,9 @@ export default function SingleAssignment({ assignmentId }) {
         </h3>
         <p>{assignment.audience}</p>
         <h3 className="uppercase bg-gray-100 text-gray-400 my-4 font-light">
-          Expected technical level
+          Content Type
         </h3>
-        <p>{assignment.technical_level}</p>
+        <p>{assignment.content_types_names}</p>
         {!belongsToCurrentUser() ? (
           <>
             <h3 className="uppercase bg-gray-100 text-gray-400 my-4 font-light">
