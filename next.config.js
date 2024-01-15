@@ -33,6 +33,7 @@ module.exports = withAxiom({
         },
       ],
     ],
+    serverMinification: false,
   },
   async redirects() {
     return [
