@@ -11,7 +11,11 @@ const base = new Airtable({
   endpointUrl: "https://proxy.syncinc.so/api.airtable.com",
 }).base(process.env.AIRTABLE_BASE);
 
-const updateOutreach = async (outreachId, status, reasonForRejection) => {
+export const updateOutreach = async (
+  outreachId,
+  status,
+  reasonForRejection,
+) => {
   return base(tableName).update([
     {
       id: outreachId,

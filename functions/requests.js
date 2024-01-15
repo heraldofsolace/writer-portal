@@ -11,7 +11,7 @@ const base = new Airtable({
   endpointUrl: "https://proxy.syncinc.so/api.airtable.com",
 }).base(process.env.AIRTABLE_BASE);
 
-const createRequest = async (assignmentId, writerId) => {
+export const createRequest = async (assignmentId, writerId) => {
   try {
     const result = await base(tableName).create([
       {
@@ -28,7 +28,7 @@ const createRequest = async (assignmentId, writerId) => {
   }
 };
 
-const getRequests = async (type, email) => {
+export const getRequests = async (type, email) => {
   if (!["all", "past", "pending"].includes(type)) {
     return {
       data: null,
@@ -63,7 +63,7 @@ const getRequests = async (type, email) => {
   }
 };
 
-const getSingleRequest = async (requestId, email) => {
+export const getSingleRequest = async (requestId, email) => {
   try {
     const query = `select requests.id,
                         requests.request_status,
@@ -86,7 +86,7 @@ const getSingleRequest = async (requestId, email) => {
   }
 };
 
-const deleteRequest = async (requestId) => {
+export const deleteRequest = async (requestId) => {
   try {
     const result = await base(tableName).destroy(requestId);
 
@@ -95,10 +95,4 @@ const deleteRequest = async (requestId) => {
     console.error(e);
     return { data: null, error: e };
   }
-};
-module.exports = {
-  getRequests,
-  getSingleRequest,
-  createRequest,
-  deleteRequest,
 };
