@@ -11,7 +11,7 @@ const base = new Airtable({
   endpointUrl: "https://proxy.syncinc.so/api.airtable.com",
 }).base(process.env.AIRTABLE_BASE);
 
-const accept = (assignmentId) => {
+export const accept = (assignmentId) => {
   const today = new Date().toISOString();
   return base(tableName).update([
     {
@@ -24,7 +24,7 @@ const accept = (assignmentId) => {
   ]);
 };
 
-const submit = (assignmentId) => {
+export const submit = (assignmentId) => {
   const today = new Date().toISOString();
   return base(tableName).update([
     {
@@ -37,7 +37,7 @@ const submit = (assignmentId) => {
   ]);
 };
 
-const getAssignments = async (type, email) => {
+export const getAssignments = async (type, email) => {
   if (!["all", "current"].includes(type)) {
     return {
       data: null,
@@ -75,7 +75,7 @@ const getAssignments = async (type, email) => {
   }
 };
 
-const getAvailableAssignments = async (email) => {
+export const getAvailableAssignments = async (email) => {
   try {
     const query = `select assignments.title,
                             assignments.id,
@@ -117,7 +117,7 @@ const getAvailableAssignments = async (email) => {
   }
 };
 
-const getSingleAssignment = async (assignmentId, email) => {
+export const getSingleAssignment = async (assignmentId, email) => {
   try {
     const query = `select assignments.title,
                                   assignments.id,
@@ -166,12 +166,4 @@ const getSingleAssignment = async (assignmentId, email) => {
     console.error(e);
     return { data: null, error: e };
   }
-};
-
-module.exports = {
-  accept,
-  submit,
-  getAssignments,
-  getSingleAssignment,
-  getAvailableAssignments,
 };
