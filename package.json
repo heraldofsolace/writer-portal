@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^4.26.4",
-    "@clerk/nextjs": "^4.25.4",
+    "@clerk/nextjs": "^4.29.3",
     "add": "^2.0.6",
     "airtable": "^0.12.2",
     "babel-plugin-superjson-next": "^0.4.4",
