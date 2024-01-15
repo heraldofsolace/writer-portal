@@ -4,7 +4,7 @@ const { Pool } = require("pg");
 const connectionString = process.env.PG_CONNECTION_STRING;
 const pool = new Pool({ connectionString });
 
-const fetchImage = async (src) => {
+export const fetchImage = async (src) => {
   const headers = new Headers();
   headers.set("Accept", "*/*");
   headers.set("Authorization", `Bearer ${process.env.AIRTABLE_API_KEY}`);
@@ -12,7 +12,7 @@ const fetchImage = async (src) => {
   return fetch(src, { headers });
 };
 
-const getWriter = async (writerId) => {
+export const getWriter = async (writerId) => {
   try {
     const query = `select writers.first_name,
                                   writers.last_name,
@@ -38,7 +38,7 @@ const getWriter = async (writerId) => {
   }
 };
 
-const getCurrentWriter = async (email) => {
+export const getCurrentWriter = async (email) => {
   try {
     // The Writers table already has the current_assignments_count, pending_requests_count and pending_outreaches_count
     // fields. But they're lookup fields, so when we update an assignment, request or outreach through the Sequin proxy,
@@ -82,5 +82,3 @@ const getCurrentWriter = async (email) => {
     return { data: null, error: e };
   }
 };
-
-module.exports = { getWriter, getCurrentWriter, fetchImage };
