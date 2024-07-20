@@ -2,6 +2,7 @@ import { accept, getSingleOutreach } from "../../../../../functions/outreaches";
 import { withAxiom } from "next-axiom";
 import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { assignmentStatuses } from "../../../../../constants/assignment-statuses";
 
 export const POST = withAxiom(async (req, { params }) => {
   const outreachId = params.outreachId;
@@ -18,6 +19,12 @@ export const POST = withAxiom(async (req, { params }) => {
         { user: user.emailAddresses[0].emailAddress },
       );
       return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    if (result.data.assignment_status !== assignmentStatuses.assigning) {
+      req.log.error(`Assignment is not in assigning stage`, {
+        user: user.emailAddresses[0].emailAddress,
+      });
+      return NextResponse.json({ error: "Not in assigning" }, { status: 403 });
     }
     const _ = await accept(
       outreachId,

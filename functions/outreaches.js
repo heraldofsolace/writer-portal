@@ -96,6 +96,7 @@ export const getSingleOutreach = async (outreachId, email) => {
                         outreach.expired,
                         assignments.writer_due_date,
                         assignments.title,
+                        assignments.status as assignment_status,
                         assignments.id as assignment_id,
                         writers.email,
                         writers.id as writer_id,
