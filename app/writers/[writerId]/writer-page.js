@@ -18,7 +18,7 @@ function Writer({ writerId }) {
   }
   useEffect( () => {
     fetchPhoto()
-  }, [])
+  })
   return (
     <>
       <div className="flex justify-center mb-64 mt-10">

@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 
 export default function Sidebar({ children }) {
   const pathname = usePathname();
-  const { writer, isLoading, isError } = !pathname.match(/\/writers\/*/) ? useWriter("me"): {writer: null, isLoading: false, isError: false};
+  const { writer, isLoading, isError } = useWriter("me");
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
